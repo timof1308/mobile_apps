@@ -1,5 +1,7 @@
+package main.java;
+
 /**
- * PasswordController Class
+ * main.java.PasswordController Class
  * Handling password hashing and
  * comparing if password in cleartext matches hashed one
  */

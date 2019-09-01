@@ -1,9 +1,9 @@
-package Models;
+package main.java.Models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Company {
+public class Equipment {
     private int id;
     private String name;
 
@@ -30,16 +30,16 @@ public class Company {
      * @return model
      * @throws SQLException not handled in static method
      */
-    public static Company parseModel(ResultSet rs) throws SQLException {
+    public static Equipment parseModel(ResultSet rs) throws SQLException {
         // extracting data
         int id = rs.getInt("id");
         String name = rs.getString("name");
 
         // create custom model
-        Company company = new Company();
-        company.setId(id);
-        company.setName(name);
+        Equipment equipment = new Equipment();
+        equipment.setId(id);
+        equipment.setName(name);
 
-        return company;
+        return equipment;
     }
 }

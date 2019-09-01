@@ -1,8 +1,7 @@
-package Models;
+package main.java.Models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class RoomEquipment {
     private int id;

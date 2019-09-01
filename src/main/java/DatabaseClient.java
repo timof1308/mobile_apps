@@ -1,5 +1,6 @@
-import Models.*;
+package main.java;
 
+import main.java.Models.*;
 import java.sql.*;
 import java.util.ArrayList;
 
