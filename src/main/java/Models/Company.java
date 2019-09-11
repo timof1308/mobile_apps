@@ -7,6 +7,15 @@ public class Company {
     private int id;
     private String name;
 
+    public Company() {
+        //
+    }
+
+    public Company(int id, String name) {
+        this.setId(id);
+        this.setName(name);
+    }
+
     public int getId() {
         return id;
     }

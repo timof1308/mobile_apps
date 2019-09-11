@@ -7,6 +7,15 @@ public class Room {
     private int id;
     private String name;
 
+    public Room() {
+        //
+    }
+
+    public Room(int id, String name) {
+        this.setId(id);
+        this.setName(name);
+    }
+
     public int getId() {
         return id;
     }

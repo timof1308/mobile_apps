@@ -11,6 +11,19 @@ public class User {
     private int role;
     private int token;
 
+    public User() {
+        //
+    }
+
+    public User(int id, String name, String email, String password, int role, int token) {
+        this.setId(id);
+        this.setName(name);
+        this.setEmail(email);
+        this.setPassword(password);
+        this.setRole(role);
+        this.setToken(token);
+    }
+
     public int getId() {
         return id;
     }

@@ -1,5 +1,9 @@
 package main.java;
 
+import javax.xml.bind.DatatypeConverter;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+
 /**
  * main.java.PasswordController Class
  * Handling password hashing and
@@ -18,20 +22,32 @@ public class PasswordController {
     public static String generateHash(String in) {
         String in_modified = "alt" + in + "salt";
 
-        byte[] hash = in_modified.getBytes();
-        StringBuffer hashString = new StringBuffer();
-        for (int i = 0; i < hash.length; i++) {
-            String hex = Integer.toHexString(0xff & hash[i]);
-            if (hex.length() == 1) hashString.append('0');
-            hashString.append(hex);
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(in_modified.getBytes(StandardCharsets.UTF_8));
+            return bytesToHex(hash);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return hashString.toString();
+
+        return null;
+    }
+
+    /**
+     * Use javax.xml.bind.DatatypeConverter class in JDK to convert byte array
+     * to a hexadecimal string. Note that this generates hexadecimal in upper case.
+     *
+     * @param hash bytes to convert into string
+     * @return printable String
+     */
+    private static String bytesToHex(byte[] hash) {
+        return DatatypeConverter.printHexBinary(hash);
     }
 
     /**
      * Check if clear text password matches hash value
      *
-     * @param in cleartext password
+     * @param in   cleartext password
      * @param hash of password (stored in DB)
      * @return true on match; false if not
      */

@@ -10,6 +10,17 @@ public class Meeting {
     private Room room;
     private Timestamp date;
 
+    public Meeting() {
+        //
+    }
+
+    public Meeting(int id, User user, Room room, Timestamp date) {
+        this.setId(id);
+        this.setUser(user);
+        this.setRoom(room);
+        this.setDate(date);
+    }
+
     public int getId() {
         return id;
     }

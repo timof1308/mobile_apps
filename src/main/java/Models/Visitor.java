@@ -13,6 +13,20 @@ public class Visitor {
     private Timestamp check_in;
     private Timestamp check_out;
 
+    public Visitor() {
+        //
+    }
+
+    public Visitor(int id, String name, String email, Company company, Meeting meeting, Timestamp check_in, Timestamp check_out) {
+        this.setId(id);
+        this.setName(name);
+        this.setEmail(email);
+        this.setCompany(company);
+        this.setMeeting(meeting);
+        this.setCheck_in(check_in);
+        this.setCheck_out(check_out);
+    }
+
     public int getId() {
         return id;
     }

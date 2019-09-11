@@ -8,6 +8,16 @@ public class RoomEquipment {
     private Room room;
     private Equipment equipment;
 
+    public RoomEquipment() {
+        //
+    }
+
+    public RoomEquipment(int id, Room room, Equipment equipment) {
+        this.setId(id);
+        this.setRoom(room);
+        this.setEquipment(equipment);
+    }
+
     public int getId() {
         return id;
     }

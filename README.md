@@ -4,10 +4,13 @@
 Projekt für Vorlesung Mobile Apps (5. & 6. Semester) mit dem Ziel, eine Java App zu entwickeln und Mehtoden der Projektarbeit anzuwenden.
 In diesem Fall wird eine Emfpangs- & Meetingapplikation entwickelt, mit der Mitarbeiter deren Meetings verwalten können.
 
+> PHP RESTful API [mobile_apps_api](https://github.com/timof1308/mobile_apps_api)
+
 ## Verwendete Komponenten
 - [PostgreSQL](https://www.postgresql.org/docs/)
 - [JDBC v42.2.6](https://jdbc.postgresql.org/download.html) for PostgreSQL
 - [JavaMail 1.6.2](https://github.com/javaee/javamail/releases) to send mails
+- [org.json](https://github.com/stleary/JSON-java) to parse JSON from string to object
 
 ## Aufbau
 - Datenbank Struktur in `dump.sql` für PostgreSQL
@@ -20,3 +23,5 @@ In diesem Fall wird eine Emfpangs- & Meetingapplikation entwickelt, mit der Mita
 - `main.java.MailController.java` ermöglicht das Versenden von E-Mails via SMTP und einen GMail Account
 
     Vor dem Nutzen das Passwort im Controller setzen!
+- `main.javaJwtController.java` ermöglicht das Konvertieren eines JWT Tokens (String) in ein JSON (`getPayloadJwt()`) bzw. User Model (`decodeJwt()`)
+ 
