@@ -28,6 +28,7 @@
         <item name="colorAccent">#FFFFFF</item>
     </style>
 
+    <!-- Probably not needed: -->
     <style name="Theme.VMS.Blue" parent="AppTheme">
         <item name="colorPrimary">@color/light_blue</item>
         <item name="colorPrimaryDark">@color/dark_blue</item>
