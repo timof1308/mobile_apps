@@ -1,6 +1,7 @@
 package de.vms.vmsapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,7 +16,9 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private final String TOOLBAR_TITLE_KEY = "toolbarTitleKey";
     private DrawerLayout drawer;
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +27,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         //source: https://www.youtube.com/watch?v=bjYstsO1PgI
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close); //connect the drawer and the toolbar
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close); //connect the drawer and the toolbar
         drawer.addDrawerListener(toggle);
         toggle.syncState(); //for hamburger menu to rotate
 
@@ -43,18 +46,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        if(savedInstanceState != null) {
+            mToolbar.setTitle(savedInstanceState.getString(TOOLBAR_TITLE_KEY));
+        }
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_home:
+                mToolbar.setTitle(R.string.app_name);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
                 break;
             case R.id.nav_meetings:
+                mToolbar.setTitle(R.string.meetings);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MeetingsFragment()).commit();
                 break;
             case R.id.nav_dashboard:
+                mToolbar.setTitle(R.string.dashboard);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
                 break;
             case R.id.nav_profile:
+                mToolbar.setTitle(R.string.profile);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
                 break;
             case R.id.nav_share:
@@ -80,4 +95,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString(TOOLBAR_TITLE_KEY, (String) mToolbar.getTitle());
+        super.onSaveInstanceState(outState);
+    }
+    
 }
