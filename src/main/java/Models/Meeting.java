@@ -9,12 +9,13 @@ public class Meeting {
     private User user;
     private Room room;
     private Timestamp date;
+    private int duration;
 
     public Meeting() {
         //
     }
 
-    public Meeting(int id, User user, Room room, Timestamp date) {
+    public Meeting(int id, User user, Room room, Timestamp date, int duration) {
         this.setId(id);
         this.setUser(user);
         this.setRoom(room);
@@ -53,6 +54,14 @@ public class Meeting {
         this.date = date;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     /**
      * Extracting data from database record and return model
      *
@@ -64,6 +73,7 @@ public class Meeting {
         // extracting data
         int id = rs.getInt("id");
         Timestamp date = rs.getTimestamp("date");
+        int duration = rs.getInt("duration");
 
         // creating models for joins
         User host = new User();
@@ -83,6 +93,7 @@ public class Meeting {
         meeting.setDate(date);
         meeting.setUser(host);
         meeting.setRoom(room);
+        meeting.setDuration(duration);
 
         return meeting;
     }

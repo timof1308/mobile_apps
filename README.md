@@ -23,5 +23,5 @@ In diesem Fall wird eine Emfpangs- & Meetingapplikation entwickelt, mit der Mita
 - `main.java.MailController.java` ermöglicht das Versenden von E-Mails via SMTP und einen GMail Account
 
     Vor dem Nutzen das Passwort im Controller setzen!
-- `main.javaJwtController.java` ermöglicht das Konvertieren eines JWT Tokens (String) in ein JSON (`getPayloadJwt()`) bzw. User Model (`decodeJwt()`)
+- `main.java.JwtController.java` ermöglicht das Konvertieren eines JWT Tokens (String) in ein JSON (`getPayloadJwt()`) bzw. User Model (`decodeJwt()`)
  

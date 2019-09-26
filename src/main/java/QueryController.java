@@ -32,30 +32,30 @@ public class QueryController {
     // ********************
     // * MEETINGS
     // ********************
-    public final static String selectMeetings = "SELECT m.id, m.date,\n" +
+    public final static String selectMeetings = "SELECT m.id, m.date, m.duration,\n" +
             "       u.id as user_id, u.name as user_name, u.email,  u.password, u.role, u.token,\n" +
             "       r.id as room_id,  r.name as room_name\n" +
             "FROM meetings m\n" +
             "         JOIN users u on m.user_id = u.id\n" +
             "         JOIN rooms r on m.room_id = r.id;";
-    public final static String selectMeetingById = "SELECT m.id, m.date,\n" +
+    public final static String selectMeetingById = "SELECT m.id, m.date, m.duration,\n" +
             "       u.id as user_id, u.name as user_name, u.email,  u.password, u.role, u.token,\n" +
             "       r.id as room_id,  r.name as room_name\n" +
             "FROM meetings m\n" +
             "         JOIN users u on m.user_id = u.id\n" +
             "         JOIN rooms r on m.room_id = r.id\n" +
             "WHERE r.id = ?";
-    public final static String insertMeeting = "INSERT INTO meetings (user_id, room_id, date) VALUES (?, ?, ?);";
-    public final static String updateMeetingById = "UPDATE meetings SET user_id = ?, room_id = ?, date = ? WHERE id = ?;";
+    public final static String insertMeeting = "INSERT INTO meetings (user_id, room_id, date, duration) VALUES (?, ?, ?, ?);";
+    public final static String updateMeetingById = "UPDATE meetings SET user_id = ?, room_id = ?, date = ?, duration = ? WHERE id = ?;";
     public final static String deleteMeetingById = "DELETE FROM meetings WHERE id = ?;";
 
 
     // ********************
     // * VISITORS
     // ********************
-    public final static String selectVisitors = "SELECT v.id, v.name, v.email, v.check_in, v.check_out,\n" +
+    public final static String selectVisitors = "SELECT v.id, v.name, v.email, v.tel, v.check_in, v.check_out,\n" +
             "       c.id as company_id, c.name as company_name,\n" +
-            "       m.id as meeting_id, m.date,\n" +
+            "       m.id as meeting_id, m.date, m.duration,\n" +
             "       u.id as user_id, u.name as user_name, u.email as user_email,  u.password, u.role, u.token,\n" +
             "       r.id as room_id,  r.name as room_name\n" +
             "FROM visitors v\n" +
@@ -63,9 +63,9 @@ public class QueryController {
             "    JOIN meetings m on v.meeting_id = m.id\n" +
             "    JOIN users u on m.user_id = u.id\n" +
             "    JOIN rooms r on m.room_id = r.id;";
-    public final static String selectVisitorById = "SELECT v.id, v.name, v.email, v.check_in, v.check_out,\n" +
+    public final static String selectVisitorById = "SELECT v.id, v.name, v.email, v.tel, v.check_in, v.check_out,\n" +
             "       c.id as company_id, c.name as company_name,\n" +
-            "       m.id as meeting_id, m.date,\n" +
+            "       m.id as meeting_id, m.date, m.duration,\n" +
             "       u.id as user_id, u.name as user_name, u.email as user_email,  u.password, u.role, u.token,\n" +
             "       r.id as room_id,  r.name as room_name\n" +
             "FROM visitors v\n" +
@@ -74,8 +74,8 @@ public class QueryController {
             "    JOIN users u on m.user_id = u.id\n" +
             "    JOIN rooms r on m.room_id = r.id\n" +
             "WHERE v.id = ?;";
-    public final static String insertVisitor = "INSERT INTO visitors (name, email, company_id, meeting_id, check_in, check_out) VALUES (?, ?, ?, ?, ?, ?);";
-    public final static String updateVisitorById = "UPDATE meetings SET name = ?, email = ?, company_id = ?, meeting_id = ?, check_in = ?, check_out = ? WHERE id = ?;";
+    public final static String insertVisitor = "INSERT INTO visitors (name, email, tel, company_id, meeting_id, check_in, check_out) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    public final static String updateVisitorById = "UPDATE meetings SET name = ?, email = ?, tel = ?, company_id = ?, meeting_id = ?, check_in = ?, check_out = ? WHERE id = ?;";
     public final static String deleteVisitorById = "DELETE FROM visitors WHERE id = ?;";
 
     // ********************

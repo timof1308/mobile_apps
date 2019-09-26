@@ -8,6 +8,7 @@ public class Visitor {
     private int id;
     private String name;
     private String email;
+    private String tel;
     private Company company;
     private Meeting meeting;
     private Timestamp check_in;
@@ -17,10 +18,11 @@ public class Visitor {
         //
     }
 
-    public Visitor(int id, String name, String email, Company company, Meeting meeting, Timestamp check_in, Timestamp check_out) {
+    public Visitor(int id, String name, String email, String tel, Company company, Meeting meeting, Timestamp check_in, Timestamp check_out) {
         this.setId(id);
         this.setName(name);
         this.setEmail(email);
+        this.setTel(tel);
         this.setCompany(company);
         this.setMeeting(meeting);
         this.setCheck_in(check_in);
@@ -49,6 +51,14 @@ public class Visitor {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 
     public Company getCompany() {
@@ -95,6 +105,7 @@ public class Visitor {
         int id = rs.getInt("id");
         String name = rs.getString("name");
         String email = rs.getString("email");
+        String tel = rs.getString("tel");
         Timestamp check_in = rs.getTimestamp("check_in");
         Timestamp check_out = rs.getTimestamp("check_out");
 
@@ -106,6 +117,7 @@ public class Visitor {
         Meeting meeting = new Meeting();
         meeting.setId(rs.getInt("meeting_id"));
         meeting.setDate(rs.getTimestamp("meeting_date"));
+        meeting.setDuration(rs.getInt("meeting_duration"));
 
         // sub room model for meeting
         Room meeting_room = new Room();
@@ -126,6 +138,7 @@ public class Visitor {
         visitor.setId(id);
         visitor.setName(name);
         visitor.setEmail(email);
+        visitor.setTel(tel);
         visitor.setCheck_in(check_in);
         visitor.setCheck_out(check_out);
         visitor.setMeeting(meeting);

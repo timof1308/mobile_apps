@@ -500,6 +500,7 @@ public class DatabaseClient {
             pstmt.setInt(1, meeting.getUser().getId());
             pstmt.setInt(2, meeting.getRoom().getId());
             pstmt.setTimestamp(3, meeting.getDate());
+            pstmt.setInt(4, meeting.getDuration());
             // run
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -519,10 +520,11 @@ public class DatabaseClient {
             // fill
             pstmt.setString(1, visitor.getName());
             pstmt.setString(2, visitor.getEmail());
-            pstmt.setInt(3, visitor.getCompany().getId());
-            pstmt.setInt(4, visitor.getMeeting().getId());
-            pstmt.setTimestamp(5, visitor.getCheck_in());
-            pstmt.setTimestamp(6, visitor.getCheck_out());
+            pstmt.setString(3, visitor.getTel());
+            pstmt.setInt(4, visitor.getCompany().getId());
+            pstmt.setInt(5, visitor.getMeeting().getId());
+            pstmt.setTimestamp(6, visitor.getCheck_in());
+            pstmt.setTimestamp(7, visitor.getCheck_out());
             // run
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -668,11 +670,12 @@ public class DatabaseClient {
             // fill
             pstmt.setString(1, visitor.getName());
             pstmt.setString(2, visitor.getEmail());
-            pstmt.setInt(3, visitor.getCompany().getId());
-            pstmt.setInt(4, visitor.getMeeting().getId());
-            pstmt.setTimestamp(5, visitor.getCheck_in());
-            pstmt.setTimestamp(6, visitor.getCheck_out());
-            pstmt.setInt(7, visitor.getId());
+            pstmt.setString(3, visitor.getTel());
+            pstmt.setInt(4, visitor.getCompany().getId());
+            pstmt.setInt(5, visitor.getMeeting().getId());
+            pstmt.setTimestamp(6, visitor.getCheck_in());
+            pstmt.setTimestamp(7, visitor.getCheck_out());
+            pstmt.setInt(8, visitor.getId());
             // run
             pstmt.executeUpdate();
         } catch (SQLException e) {
