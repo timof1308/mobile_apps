@@ -43,6 +43,12 @@ public class RoomsFragment extends Fragment {
         // define listView to render elements
         listView = (ListView) view.findViewById(R.id.roomsListView);
         newRoomButton = (Button) view.findViewById(R.id.newRoomButton);
+        newRoomButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCreateRoomDialog();
+            }
+        });
 
         // load rooms
         getRooms();
@@ -108,5 +114,9 @@ public class RoomsFragment extends Fragment {
         }
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, stocks);
         listView.setAdapter(arrayAdapter);
+    }
+
+    private void openCreateRoomDialog() {
+
     }
 }
