@@ -117,6 +117,7 @@ public class RoomsFragment extends Fragment {
     }
 
     private void openCreateRoomDialog() {
-
+        CreateRoomDialog createRoomDialog = new CreateRoomDialog();
+        createRoomDialog.show(this.getFragmentManager(), "create room"); //different from tut
     }
 }
