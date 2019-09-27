@@ -1,9 +1,5 @@
 <resources>
 
-    <color name="light_blue">#449DEF</color>
-    <color name="dark_blue">#2F6699</color>
-
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
 
@@ -28,12 +24,21 @@
         <item name="colorAccent">#FFFFFF</item>
     </style>
 
-    <!-- Probably not needed: -->
+    <!-- Base application theme. -->
     <style name="Theme.VMS.Blue" parent="AppTheme">
         <item name="colorPrimary">@color/light_blue</item>
         <item name="colorPrimaryDark">@color/dark_blue</item>
         <item name="colorAccent">#FFFFFF</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <!-- Probably not needed: -->
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <color name="light_blue">#449DEF</color>
+
+    <color name="dark_blue">#2F6699</color>
 
 
 </resources>
