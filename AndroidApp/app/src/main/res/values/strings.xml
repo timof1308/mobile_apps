@@ -8,10 +8,12 @@
     <string name="dashboard">Dashboard</string>
     <string name="profile">Profile</string>
     <string name="rooms">Rooms</string>
+    <string name="equipment">Equipment</string>
 
     <string name="welcome">Welcome</string>
     <string name="scanQR">Please scan your QR code ...</string>
 
     <string name="new_room">Create new room</string>
+    <string name="new_equipment">Create new equipment</string>
 
 </resources>

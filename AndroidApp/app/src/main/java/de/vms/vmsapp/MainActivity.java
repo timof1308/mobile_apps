@@ -76,6 +76,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mToolbar.setTitle(R.string.rooms);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoomsFragment()).commit();
                 break;
+            case R.id.nav_equipment:
+                mToolbar.setTitle(R.string.equipment);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new EquipmentFragment()).commit();
+                break;
             case R.id.nav_share:
                 Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
                 break;
