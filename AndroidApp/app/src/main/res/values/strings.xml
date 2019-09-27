@@ -4,11 +4,16 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="login">Login</string>
+    <string name="registration">Registration</string>
+
     <string name="meetings">Meetings</string>
     <string name="dashboard">Dashboard</string>
     <string name="profile">Profile</string>
 
     <string name="welcome">Welcome</string>
     <string name="scanQR">Please scan your QR code ...</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
 
 </resources>
