@@ -13,6 +13,8 @@ public class WelcomeActivity extends AppCompatActivity {
     private Button login;
     private Button register;
 
+    private Button testMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,14 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
+        testMenu = (Button) findViewById(R.id.testMenu);
+        testMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTestMenuActivity();
+            }
+        });
+
     }
 
     private void openLoginActivity() {
@@ -43,6 +53,11 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void openRegistrationActivity() {
         Intent intent = new Intent(this, RegistrationActivity.class);
+        startActivity(intent);
+    }
+
+    private void openTestMenuActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
