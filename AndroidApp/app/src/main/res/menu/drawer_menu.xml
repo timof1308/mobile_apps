@@ -10,15 +10,15 @@
         <item android:id="@+id/nav_meetings"
             android:icon="@drawable/ic_meetings"
             android:title="Meetings"/>
+        <item android:id="@+id/nav_rooms"
+            android:icon="@drawable/ic_rooms"
+            android:title="Rooms"/>
         <item android:id="@+id/nav_dashboard"
             android:icon="@drawable/ic_dashboard"
             android:title="Dashboard"/>
         <item android:id="@+id/nav_profile"
             android:icon="@drawable/ic_profile"
             android:title="Profile"/>
-        <item android:id="@+id/nav_rooms"
-            android:icon="@drawable/ic_profile"
-            android:title="Rooms"/>
     </group>
 
     <item android:title="Communicate">
