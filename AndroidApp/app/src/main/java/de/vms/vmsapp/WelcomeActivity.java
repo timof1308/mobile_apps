@@ -56,7 +56,7 @@ public class WelcomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void openTestMenuActivity() {
+    private void openTestMenuActivity() { //TEST
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
