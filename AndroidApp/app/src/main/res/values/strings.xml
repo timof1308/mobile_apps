@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">VMS-App</string>
     <string name="app_name">Visitor Management</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -10,5 +11,7 @@
 
     <string name="welcome">Welcome</string>
     <string name="scanQR">Please scan your QR code ...</string>
+
+    <string name="new_room">Create new room</string>
 
 </resources>
