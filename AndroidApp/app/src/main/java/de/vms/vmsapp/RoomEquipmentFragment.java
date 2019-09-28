@@ -176,7 +176,7 @@ public class RoomEquipmentFragment extends Fragment {
             // add room to array list
             equipment.add(e);
         }
-        RoomEquipmentListAdapter arrayAdapter = new RoomEquipmentListAdapter(getActivity(), equipment);
+        RoomEquipmentListAdapter arrayAdapter = new RoomEquipmentListAdapter(getActivity(), equipment, new Room(roomId, roomName));
         listView.setAdapter(arrayAdapter);
     }
 
@@ -189,8 +189,8 @@ public class RoomEquipmentFragment extends Fragment {
             // get json object from array
             JSONObject obj = jsonArray.getJSONObject(i);
             // get nested elements
-            JSONObject jsonRoom = (JSONObject)obj.get("room");
-            JSONObject jsonEquipment = (JSONObject)obj.get("equipment");
+            JSONObject jsonRoom = (JSONObject) obj.get("room");
+            JSONObject jsonEquipment = (JSONObject) obj.get("equipment");
             // create new room equipment
             Room room = new Room(jsonRoom.getInt("id"), jsonRoom.getString("name"));
             Equipment equipment = new Equipment(jsonEquipment.getInt("id"), jsonEquipment.getString("name"));
@@ -204,13 +204,19 @@ public class RoomEquipmentFragment extends Fragment {
             // get equipment
             Equipment equipment = (Equipment) listView.getItemAtPosition(i);
             // for each room equipment from call
-            for (RoomEquipment re: roomEquipment) {
+            for (RoomEquipment re : roomEquipment) {
                 // check if loop (list view) matches room equipment
                 if (re.getEquipment().getId() == equipment.getId()) {
                     // update checkbox -> mark checked
                     CheckBox itemCheckBox = listView.getChildAt(i).findViewById(R.id.roomEquipmentCheckBox);
-                    itemCheckBox.setChecked(true);
-                    return;
+                    itemCheckBox.setChecked(true); // mark checked
+                    // get text view for room request id
+                    TextView itemTextView = listView.getChildAt(i).findViewById(R.id.roomEquipmentTextView);
+                    // set id to text view
+                    itemTextView.setText(Integer.toString(re.getId()));
+                    // make text view invisible again
+                    itemTextView.setVisibility(View.INVISIBLE);
+                    continue;
                 }
             }
         }
