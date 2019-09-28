@@ -1,20 +1,17 @@
 package de.vms.vmsapp;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,55 +20,38 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import de.vms.vmsapp.Adapters.RoomListAdapter;
-import de.vms.vmsapp.Models.Room;
+import de.vms.vmsapp.Models.Equipment;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class RoomsFragment extends Fragment {
+public class RoomEquipmentFragment extends Fragment {
     // UI elements
     private View view;
-    private ListView listView;
-    private Button newRoomButton;
+    private TextView roomNameTextView;
+    private int roomId;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            roomId = bundle.getInt("roomId", -1); // Key, default value
+        } else {
+            // no room id passed
+            Toast.makeText(getActivity(), "No room selected", Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d("entry", "§§FINISH§§");
         // fragment view
-        view = inflater.inflate(R.layout.fragment_rooms, container, false);
+        view = inflater.inflate(R.layout.fragment_room_requipment, container, false);
         // define listView to render elements
-        listView = (ListView) view.findViewById(R.id.roomsListView);
-        // create new room button
-        newRoomButton = (Button) view.findViewById(R.id.newRoomButton);
-
-        // list view on click listener
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> adapter, View view,
-                                    int position, long id) {
-
-                // get selected room object
-                Room room = (Room) listView.getItemAtPosition(position);
-
-                Bundle bundle = new Bundle();
-                bundle.putInt("roomId", room.getId());
-
-                RoomEquipmentFragment room_equipment_fragment = new RoomEquipmentFragment();
-                room_equipment_fragment.setArguments(bundle);
-
-                // Create new fragment and transaction
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                // Replace whatever is in the fragment_container view with this fragment, and add the transaction to the back stack
-                transaction.replace(R.id.fragment_container, room_equipment_fragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                // pass room id to intent
-                intent.putExtra("room", room.getId());
-                getActivity().startActivity(intent);
-            }
-        });
+        roomNameTextView = (TextView) view.findViewById(R.id.roomNameTextView);
 
         return view;
     }
@@ -81,13 +61,10 @@ public class RoomsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         // load rooms
-        getRooms();
+        getEquipment();
     }
 
-    /**
-     * Get all rooms
-     */
-    private void getRooms() {
+    public void getEquipment() {
         AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -96,7 +73,7 @@ public class RoomsFragment extends Fragment {
                 // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
                         .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjYsImlkIjo2LCJuYW1lIjoiVGVzdCBVc2VyIiwiZW1haWwiOiJ2bXMud3dpMTdzY2FAZ21haWwuY29tIiwicGFzc3dvcmQiOiI5MzdlOGQ1ZmJiNDhiZDQ5NDk1MzZjZDY1YjhkMzVjNDI2YjgwZDJmODMwYzVjMzA4ZTJjZGVjNDIyYWUyMjQ0Iiwicm9sZSI6MSwidG9rZW4iOm51bGwsImlhdCI6MTU2OTU5MjI0Mn0.R6bRJ21QNe-Er5GnakGQAY7YK1KPbN79gX67huhfzO4")
-                        .url("http://35.184.56.207/api/rooms")
+                        .url("http://35.184.56.207/api/equipment")
                         .build();
 
                 // run request
@@ -117,10 +94,10 @@ public class RoomsFragment extends Fragment {
                 super.onPostExecute(s);
                 if (s != null) {
                     // LOG response
-                    Log.d("rooms", s);
+                    Log.d("equipment", s);
                     try {
                         // pass to function to create List View elements and render view
-                        loadIntoListView(s);
+                        loadCheckBoxes(s);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -131,26 +108,24 @@ public class RoomsFragment extends Fragment {
         asyncTask.execute();
     }
 
-    /**
-     * Build list view elements and display in fragment
-     *
-     * @param json String to create JSON for
-     * @throws JSONException
-     */
-    private void loadIntoListView(String json) throws JSONException {
+    public void loadCheckBoxes(String json) throws JSONException {
         // convert json string to json object
         JSONArray jsonArray = new JSONArray(json);
         // prepare array list for rooms for adapter
-        ArrayList<Room> rooms = new ArrayList<Room>();
+        ArrayList<Equipment> equipment = new ArrayList<Equipment>();
         for (int i = 0; i < jsonArray.length(); i++) {
             // get json object from array
             JSONObject obj = jsonArray.getJSONObject(i);
             // create new room
-            Room room = new Room(obj.getInt("id"), obj.getString("name"));
+            Equipment e = new Equipment(obj.getInt("id"), obj.getString("name"));
             // add room to array list
-            rooms.add(room);
+            equipment.add(e);
         }
-        RoomListAdapter arrayAdapter = new RoomListAdapter(getActivity(), rooms);
+        Toast.makeText(getActivity(), "SHOW EQUIPMENT CHECKBOXES " + roomId, Toast.LENGTH_LONG).show();
+        /*
+        RoomListAdapter arrayAdapter = new RoomEquipmentListAdapter(getActivity(), equipment);
         listView.setAdapter(arrayAdapter);
+        */
     }
+
 }

@@ -16,6 +16,8 @@ import de.vms.vmsapp.R;
 public class RoomListAdapter extends ArrayAdapter<Room> {
     // SOURCE: https://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView
 
+    private ArrayList<Room> rooms;
+
     /**
      * Constructer to override constructer of parent class
      * @param context Context
@@ -23,6 +25,7 @@ public class RoomListAdapter extends ArrayAdapter<Room> {
      */
     public RoomListAdapter(Context context, ArrayList<Room> rooms) {
         super(context, 0, rooms);
+        this.rooms = rooms;
     }
 
     @Override
@@ -43,5 +46,14 @@ public class RoomListAdapter extends ArrayAdapter<Room> {
 
         // return completed view to render on screen
         return convertView;
+    }
+
+    /**
+     * Get room on position
+     * @param position int that has been clicked
+     * @return Room model
+     */
+    public Room getItem(int position) {
+        return this.rooms.get(position);
     }
 }
