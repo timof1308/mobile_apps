@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState(); //for hamburger menu to rotate
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit(); //Activity starts with this fragment
             navigationView.setCheckedItem(R.id.nav_home);
         }
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             mToolbar.setTitle(savedInstanceState.getString(TOOLBAR_TITLE_KEY));
         }
     }
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     //use this method to close the drawer
     public void onBackPressed() {
-        if(drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
@@ -104,5 +104,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         outState.putString(TOOLBAR_TITLE_KEY, (String) mToolbar.getTitle());
         super.onSaveInstanceState(outState);
     }
-    
 }
