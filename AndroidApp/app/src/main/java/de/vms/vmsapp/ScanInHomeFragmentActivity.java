@@ -24,9 +24,9 @@ public class ScanInHomeFragmentActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: created");
 
-        tv_result = (TextView) findViewById(R.id.tv_result);
+        tv_result = (TextView) findViewById(R.id.tv_result11);
 
-        btn_scan = (Button) findViewById(R.id.btn_scan);
+        btn_scan = (Button) findViewById(R.id.btn_scan11);
 
         btn_scan.setOnClickListener(new View.OnClickListener() {
             @Override

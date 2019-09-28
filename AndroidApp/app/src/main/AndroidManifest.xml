@@ -13,6 +13,7 @@
         android:hardwareAccelerated="true">
         <activity android:name=".ScanInHomeFragmentActivity"></activity>
         <activity android:name=".ScanActivity" />
+        <activity android:name=".HomeFragment" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

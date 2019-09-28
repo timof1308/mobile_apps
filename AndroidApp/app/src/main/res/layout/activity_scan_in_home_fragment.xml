@@ -7,7 +7,7 @@
     tools:context=".ScanInHomeFragmentActivity">
 
     <Button
-        android:id="@+id/btn_scan"
+        android:id="@+id/btn_scan11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_result"
+        android:id="@+id/tv_result11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -26,5 +26,5 @@
         android:textColor="#000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_scan" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_scan11" />
 </androidx.constraintlayout.widget.ConstraintLayout>
