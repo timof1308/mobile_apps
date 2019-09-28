@@ -19,7 +19,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import de.vms.vmsapp.Adapters.RoomListAdapter;
+import de.vms.vmsapp.Models.Room;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -100,13 +103,19 @@ public class RoomsFragment extends Fragment {
      * @throws JSONException
      */
     private void loadIntoListView(String json) throws JSONException {
+        // convert json string to json object
         JSONArray jsonArray = new JSONArray(json);
-        String[] stocks = new String[jsonArray.length()];
+        // prepare array list for rooms for adapter
+        ArrayList<Room> rooms = new ArrayList<Room>();
         for (int i = 0; i < jsonArray.length(); i++) {
+            // get json object from array
             JSONObject obj = jsonArray.getJSONObject(i);
-            stocks[i] = obj.getString("name");
+            // create new room
+            Room room = new Room(obj.getInt("id"), obj.getString("name"));
+            // add room to array list
+            rooms.add(room);
         }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, stocks);
+        RoomListAdapter arrayAdapter = new RoomListAdapter(getActivity(), rooms);
         listView.setAdapter(arrayAdapter);
     }
 }
