@@ -55,6 +55,7 @@ public class RoomsFragment extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("roomId", room.getId());
+                bundle.putString("roomName", room.getName());
 
                 RoomEquipmentFragment room_equipment_fragment = new RoomEquipmentFragment();
                 room_equipment_fragment.setArguments(bundle);
@@ -65,11 +66,6 @@ public class RoomsFragment extends Fragment {
                 transaction.replace(R.id.fragment_container, room_equipment_fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
-
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                // pass room id to intent
-                intent.putExtra("room", room.getId());
-                getActivity().startActivity(intent);
             }
         });
 

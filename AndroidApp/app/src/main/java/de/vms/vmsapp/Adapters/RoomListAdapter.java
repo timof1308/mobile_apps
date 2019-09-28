@@ -1,12 +1,14 @@
 package de.vms.vmsapp.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
@@ -28,8 +30,9 @@ public class RoomListAdapter extends ArrayAdapter<Room> {
         this.rooms = rooms;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         // get data item for this position
         Room room = getItem(position);
         // check if an existing view is being reused, otherwise inflate the view
@@ -38,10 +41,8 @@ public class RoomListAdapter extends ArrayAdapter<Room> {
         }
 
         // data population view lookup
-        TextView idTextView = (TextView) convertView.findViewById(R.id.roomId);
         TextView nameTextView = (TextView) convertView.findViewById(R.id.roomName);
         // populate data to text view
-        idTextView.setText(Integer.toString(room.getId())); // convert int to string
         nameTextView.setText(room.getName());
 
         // return completed view to render on screen
@@ -50,6 +51,7 @@ public class RoomListAdapter extends ArrayAdapter<Room> {
 
     /**
      * Get room on position
+     *
      * @param position int that has been clicked
      * @return Room model
      */
