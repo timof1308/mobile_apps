@@ -105,7 +105,7 @@ public class RoomsFragment extends Fragment {
      * @param json String to create JSON for
      * @throws JSONException
      */
-    private void loadIntoListView(String json) throws JSONException {
+    public void loadIntoListView(String json) throws JSONException {
         JSONArray jsonArray = new JSONArray(json);
         String[] stocks = new String[jsonArray.length()];
         for (int i = 0; i < jsonArray.length(); i++) {

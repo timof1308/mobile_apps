@@ -6,6 +6,8 @@
         android:id="@+id/edit_roomname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="room name"/>
+        android:cursorVisible="false"
+        android:hint="Room name"
+        android:inputType="textCapSentences" />
     
 </RelativeLayout>
