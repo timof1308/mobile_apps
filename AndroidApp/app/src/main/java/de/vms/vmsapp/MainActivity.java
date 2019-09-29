@@ -62,8 +62,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_home:
                 mToolbar.setTitle(R.string.app_name);
                 //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-                Intent homeFragment = new Intent(MainActivity.this, HomeFragment.class);
-                startActivity(homeFragment);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+                //Intent homeFragment = new Intent(MainActivity.this, HomeFragment.class);
+                //startActivity(homeFragment);
                 break;
             case R.id.nav_meetings:
                 mToolbar.setTitle(R.string.meetings);

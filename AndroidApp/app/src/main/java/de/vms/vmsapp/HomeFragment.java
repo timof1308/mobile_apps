@@ -15,45 +15,38 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-public class HomeFragment extends AppCompatActivity { //Fragment, AppCompatActivity
+public class HomeFragment extends Fragment { //Fragment, AppCompatActivity
 
     private static final String TAG = "HomeFragment";
+    private View view;
 
     //Toolbar mToolbar;
     public static TextView tv_result;
     private Button btn_scan;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_home);
-//        mToolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(mToolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Log.d(TAG, "onCreate: created");
+        tv_result = (TextView) view.findViewById(R.id.tv_result);
 
-        tv_result = (TextView) findViewById(R.id.tv_result);
-
-        btn_scan = (Button) findViewById(R.id.btn_scan);
+        btn_scan = (Button) view.findViewById(R.id.btn_scan);
 
         btn_scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeFragment.this, ScanActivity.class);
+                Intent intent = new Intent(getActivity(), ScanActivity.class);
                 startActivity(intent);
             }
         });
 
+        return view;
     }
 
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
+        @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         //mToolbar.setTitle(R.string.app_name);
     }
 
