@@ -76,6 +76,16 @@ public class RoomsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        // define listView to render elements
+        listView = (ListView) view.findViewById(R.id.roomsListView);
+        newRoomButton = (Button) view.findViewById(R.id.newRoomButton);
+        newRoomButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCreateRoomDialog();
+            }
+        });
+
         // load rooms
         getRooms();
     }
@@ -133,8 +143,8 @@ public class RoomsFragment extends Fragment {
      * @param json String to create JSON for
      * @throws JSONException
      */
-    private void loadIntoListView(String json) throws JSONException {
-        // convert json string to json object
+
+    public void loadIntoListView(String json) throws JSONException {
         JSONArray jsonArray = new JSONArray(json);
         // prepare array list for rooms for adapter
         ArrayList<Room> rooms = new ArrayList<Room>();
@@ -148,5 +158,10 @@ public class RoomsFragment extends Fragment {
         }
         RoomListAdapter arrayAdapter = new RoomListAdapter(getActivity(), rooms);
         listView.setAdapter(arrayAdapter);
+    }
+
+    private void openCreateRoomDialog() {
+        CreateRoomDialog createRoomDialog = new CreateRoomDialog();
+        createRoomDialog.show(this.getFragmentManager(), "create room"); //different from tut
     }
 }
