@@ -57,15 +57,25 @@ public class RoomsFragment extends Fragment {
                 bundle.putInt("roomId", room.getId());
                 bundle.putString("roomName", room.getName());
 
-                RoomEquipmentFragment room_equipment_fragment = new RoomEquipmentFragment();
-                room_equipment_fragment.setArguments(bundle);
+                // Activity instead of fragment:
+                Intent intent = new Intent(getActivity(), RoomEquipmentFragment.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
 
-                // Create new fragment and transaction
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                // Replace whatever is in the fragment_container view with this fragment, and add the transaction to the back stack
-                transaction.replace(R.id.fragment_container, room_equipment_fragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+
+
+
+                //old code (Fragment):
+
+//                RoomEquipmentFragment room_equipment_fragment = new RoomEquipmentFragment();
+//                room_equipment_fragment.setArguments(bundle);
+//
+//                // Create new fragment and transaction
+//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                // Replace whatever is in the fragment_container view with this fragment, and add the transaction to the back stack
+//                transaction.replace(R.id.fragment_container, room_equipment_fragment);
+//                transaction.addToBackStack(null);
+//                transaction.commit();
             }
         });
 

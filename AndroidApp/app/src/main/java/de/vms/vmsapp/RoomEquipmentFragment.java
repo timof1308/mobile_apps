@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import org.json.JSONArray;
@@ -33,9 +35,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RoomEquipmentFragment extends Fragment {
+public class RoomEquipmentFragment extends AppCompatActivity { // Fragment, AppCompatActivity
     // UI elements
-    private View view;
+    // private View view;
     private TextView roomNameTextView;
     private ListView listView;
     private int roomId;
@@ -43,34 +45,37 @@ public class RoomEquipmentFragment extends Fragment {
 
     private Button btn_delete_room;
 
+    Toolbar mToolbar;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
+        setContentView(R.layout.fragment_room_requipment);
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
             roomId = bundle.getInt("roomId", -1); // Key, default value
             roomName = bundle.getString("roomName", "Room Details"); // Key, default value
         } else {
             // no room id passed
-            Toast.makeText(getActivity(), "No room selected", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No room selected", Toast.LENGTH_LONG).show();
         }
 
 
-    }
+        getEquipment();
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // fragment view
-        view = inflater.inflate(R.layout.fragment_room_requipment, container, false);
         // define listView to render elements
-        listView = (ListView) view.findViewById(R.id.roomEquipmentListView);
-        roomNameTextView = (TextView) view.findViewById(R.id.roomNameTextView);
+        listView = (ListView) findViewById(R.id.roomEquipmentListView);
+        roomNameTextView = (TextView) findViewById(R.id.roomNameTextView);
         // set fragment top name
         roomNameTextView.setText(roomName);
 
-        btn_delete_room = (Button) view.findViewById(R.id.btn_delete_room);
+        btn_delete_room = (Button) findViewById(R.id.btn_delete_room);
         btn_delete_room.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,16 +83,49 @@ public class RoomEquipmentFragment extends Fragment {
             }
         });
 
-        return view;
+
+        // CODE FOR FRAGMENT:
+//        Bundle bundle = this.getArguments();
+//        if (bundle != null) {
+//            roomId = bundle.getInt("roomId", -1); // Key, default value
+//            roomName = bundle.getString("roomName", "Room Details"); // Key, default value
+//        } else {
+//            // no room id passed
+//            Toast.makeText(getActivity(), "No room selected", Toast.LENGTH_LONG).show();
+//        }
+
+
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+//    @Nullable
+//    @Override
+//    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        // fragment view
+//        view = inflater.inflate(R.layout.fragment_room_requipment, container, false);
+//        // define listView to render elements
+//        listView = (ListView) view.findViewById(R.id.roomEquipmentListView);
+//        roomNameTextView = (TextView) view.findViewById(R.id.roomNameTextView);
+//        // set fragment top name
+//        roomNameTextView.setText(roomName);
+//
+//        btn_delete_room = (Button) view.findViewById(R.id.btn_delete_room);
+//        btn_delete_room.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                deleteRoom();
+//            }
+//        });
+//
+//        return view;
+//    }
 
-        // load rooms
-        getEquipment();
-    }
+//    @Override
+//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//
+//        // load rooms
+//        getEquipment();
+//    }
 
     public void getEquipment() {
         AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
@@ -191,7 +229,7 @@ public class RoomEquipmentFragment extends Fragment {
             // add room to array list
             equipment.add(e);
         }
-        RoomEquipmentListAdapter arrayAdapter = new RoomEquipmentListAdapter(getActivity(), equipment, new Room(roomId, roomName));
+        RoomEquipmentListAdapter arrayAdapter = new RoomEquipmentListAdapter(this, equipment, new Room(roomId, roomName));
         listView.setAdapter(arrayAdapter);
     }
 
