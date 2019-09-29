@@ -57,9 +57,8 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void openTestMenuActivity() { //TEST
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-        //Intent intent = new Intent(this, MainActivity.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
 }

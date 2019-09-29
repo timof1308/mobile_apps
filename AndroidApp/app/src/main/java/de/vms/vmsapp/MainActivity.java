@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState(); //for hamburger menu to rotate
 
         if(savedInstanceState == null) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit(); //Activity starts with this fragment
-            Intent homeFragment = new Intent(MainActivity.this, HomeFragment.class);
-            startActivity(homeFragment);
+            //Intent homeFragment = new Intent(MainActivity.this, HomeFragment.class); //if HomeFragment is AppCompat
+            //startActivity(homeFragment);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit(); //Activity starts with this fragment
             navigationView.setCheckedItem(R.id.nav_home);
         }
 
@@ -61,9 +61,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()) {
             case R.id.nav_home:
                 mToolbar.setTitle(R.string.app_name);
-                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-                //Intent homeFragment = new Intent(MainActivity.this, HomeFragment.class);
+                //Intent homeFragment = new Intent(MainActivity.this, HomeFragment.class); //if HomeFragment is AppCompat
                 //startActivity(homeFragment);
                 break;
             case R.id.nav_meetings:
