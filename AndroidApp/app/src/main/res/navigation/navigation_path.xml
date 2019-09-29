@@ -45,8 +45,17 @@
         android:label="activity_main"
         tools:layout="@layout/activity_main" >
         <action
+            android:id="@id/action_mainActivity_to_meetingsFragment"
+            app:destination="@id/meetingsFragment" />
+        <action
             android:id="@+id/action_mainActivity_to_roomsFragment"
             app:destination="@id/roomsFragment" />
+        <action
+            android:id="@id/action_mainActivity_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@id/action_mainActivity_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </activity>
     <fragment
         android:id="@+id/roomsFragment"
@@ -56,10 +65,33 @@
         <action
             android:id="@+id/action_roomsFragment_to_roomEquipmentFragment"
             app:destination="@id/roomEquipmentFragment" />
+        <action
+            android:id="@+id/action_roomsFragment_to_createRoomDialog"
+            app:destination="@id/createRoomDialog" />
     </fragment>
     <fragment
         android:id="@+id/roomEquipmentFragment"
         android:name="de.vms.vmsapp.RoomEquipmentFragment"
         android:label="fragment_room_requipment"
         tools:layout="@layout/fragment_room_requipment" />
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="de.vms.vmsapp.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="de.vms.vmsapp.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/meetingsFragment"
+        android:name="de.vms.vmsapp.MeetingsFragment"
+        android:label="fragment_meetings"
+        tools:layout="@layout/fragment_meetings" />
+    <dialog
+        android:id="@+id/createRoomDialog"
+        android:name="de.vms.vmsapp.CreateRoomDialog"
+        android:label="layout_create_room"
+        tools:layout="@layout/layout_create_room" />
 </navigation>
