@@ -55,5 +55,8 @@
 
     <color name="dark_blue">#2F6699</color>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/dark_blue</item>
+    </style>
 
 </resources>

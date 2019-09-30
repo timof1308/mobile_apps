@@ -134,6 +134,37 @@
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider" />
 
+            <EditText
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="12dp"
+                android:id="@+id/dateEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/dashboard_date_select"
+                android:focusable="false"
+                android:inputType="date" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+
+            <com.anychart.AnyChartView
+                android:id="@+id/weekDataAnyChartView"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp" />
+
+            <com.anychart.AnyChartView
+                android:id="@+id/companyDataAnyChartView"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp" />
+
         </LinearLayout>
+
     </ScrollView>
 </LinearLayout>

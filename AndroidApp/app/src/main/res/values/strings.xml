@@ -29,5 +29,6 @@
     <string name="dashboard_planned">Expected today</string>
     <string name="dashboard_total">Total</string>
     <string name="dashboard_companies">Today\'s companies</string>
+    <string name="dashboard_date_select">Select date</string>
 
 </resources>
