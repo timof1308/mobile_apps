@@ -30,5 +30,7 @@
     <string name="dashboard_total">Total</string>
     <string name="dashboard_companies">Today\'s companies</string>
     <string name="dashboard_date_select">Select date</string>
+    <string name="dashboard_delete_title">Delete Visitor?</string>
+    <string name="dashboard_delete_text">Are you sure to delete this visitor?</string>
 
 </resources>

@@ -1,6 +1,8 @@
 package de.vms.vmsapp.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -78,7 +80,17 @@ public class VisitorListAdapter extends ArrayAdapter<Visitor> {
             public void onClick(View v) {
                 if (!visitor.isChecked_In() && !visitor.isChecked_Out()) {
                     // visitor is not checked in && not checked out -> delete
-                    deleteVisitor(visitor.getId(), position);
+                    // show confirmation prompt
+                    new AlertDialog.Builder(getContext(), R.style.DialogTheme)
+                            .setTitle(getContext().getString(R.string.dashboard_delete_title))
+                            .setMessage(getContext().getString(R.string.dashboard_delete_text))
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    // send request to delete visitor
+                                    deleteVisitor(visitor.getId(), position);
+                                }})
+                            .setNegativeButton(android.R.string.no, null).show();
                 } else {
                     Toast.makeText(getContext(), "Visitor can not be deleted", Toast.LENGTH_SHORT).show();
                 }
