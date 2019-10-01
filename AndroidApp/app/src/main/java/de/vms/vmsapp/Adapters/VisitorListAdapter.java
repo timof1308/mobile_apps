@@ -92,7 +92,7 @@ public class VisitorListAdapter extends ArrayAdapter<Visitor> {
                                 }})
                             .setNegativeButton(android.R.string.no, null).show();
                 } else {
-                    Toast.makeText(getContext(), "Visitor can not be deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getContext().getString(R.string.dashboard_delete_forbidden), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -115,21 +115,15 @@ public class VisitorListAdapter extends ArrayAdapter<Visitor> {
         if (!visitor.isChecked_In()) {
             // action button s> check in
             actionButton.setBackground(getContext().getDrawable(R.drawable.ic_add));
-            // delete button -> enable
-            deleteButton.setEnabled(true);
         } else {
             // action button -> check out
             actionButton.setBackground(getContext().getDrawable(R.drawable.ic_minus));
-            // delete button -> disable
-            deleteButton.setEnabled(false);
         }
 
         // visitor has already checked out
         if (visitor.isChecked_Out()) {
             // action button -> disable
             actionButton.setEnabled(false);
-            // delete button -> disable
-            deleteButton.setEnabled(false);
         }
     }
 
