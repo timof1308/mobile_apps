@@ -49,6 +49,11 @@ public class RoomListAdapter extends ArrayAdapter<Room> {
         return convertView;
     }
 
+    @Override
+    public int getCount() {
+        return this.rooms.size();
+    }
+
     /**
      * Get room on position
      *

@@ -237,18 +237,8 @@ public class DashboardFragment extends Fragment {
             // assign meeting to visitor
             visitor.setMeeting(m);
 
-            Log.v("visitor fragment object", visitor.getName() + " " + visitor.getId());
-
             // add room to array list
             visitors.add(visitor);
-
-            Log.v("visitor fragment array", visitors.get(i).getName() + " " + visitors.get(i).getId());
-
-        }
-
-        Log.v("visitors size", "" + visitors.size());
-        for (int i = 0; i < visitors.size(); i++) {
-            System.out.println("visitor loop " + visitors.get(i).getName() + " " + visitors.get(i).getId());
         }
 
         VisitorListAdapter arrayAdapter = new VisitorListAdapter(getActivity(), visitors);

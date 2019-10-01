@@ -77,6 +77,11 @@ public class RoomEquipmentListAdapter extends ArrayAdapter<Equipment> {
         return convertView;
     }
 
+    @Override
+    public int getCount() {
+        return this.equipment.size();
+    }
+
     /**
      * Get room on position
      *
