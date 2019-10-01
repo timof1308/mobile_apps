@@ -32,7 +32,7 @@ public class RoomListAdapter extends ArrayAdapter<Room> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         // get data item for this position
         Room room = getItem(position);
         // check if an existing view is being reused, otherwise inflate the view
@@ -47,6 +47,11 @@ public class RoomListAdapter extends ArrayAdapter<Room> {
 
         // return completed view to render on screen
         return convertView;
+    }
+
+    @Override
+    public int getCount() {
+        return this.rooms.size();
     }
 
     /**
