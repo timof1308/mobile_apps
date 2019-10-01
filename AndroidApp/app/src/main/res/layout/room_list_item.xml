@@ -18,7 +18,6 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:text="placeholder" />
+        android:layout_marginBottom="12dp" />
 
 </RelativeLayout>

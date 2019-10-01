@@ -3,4 +3,6 @@
     <color name="colorPrimary">@color/light_blue</color>
     <color name="colorPrimaryDark">@color/dark_blue</color>
     <color name="colorAccent">#FFFFFF</color>
+    <color name="colorSuccess">#28a745</color>
+    <color name="colorDanger">#dc3545</color>
 </resources>

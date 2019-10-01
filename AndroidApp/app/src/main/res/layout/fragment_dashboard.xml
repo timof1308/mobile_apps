@@ -14,6 +14,25 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <EditText
+                android:id="@+id/dateEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:ems="10"
+                android:focusable="false"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:hint="@string/dashboard_date_select"
+                android:inputType="date" />
+
+            <ListView
+                android:id="@+id/visitorListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,22 +152,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider" />
-
-            <EditText
-                android:layout_marginBottom="12dp"
-                android:layout_marginTop="12dp"
-                android:id="@+id/dateEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/dashboard_date_select"
-                android:focusable="false"
-                android:inputType="date" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorPrimary" />
 
             <com.anychart.AnyChartView
                 android:id="@+id/weekDataAnyChartView"

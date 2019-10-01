@@ -88,11 +88,9 @@ public class Visitor {
         try {
             // parse date
             parsedDate = dateFormat.parse(check_in);
+            this.check_in = parsedDate;
         } catch (ParseException e) {
             e.printStackTrace();
-        } finally {
-            // set date or null
-            this.check_in = parsedDate;
         }
     }
 
@@ -107,11 +105,31 @@ public class Visitor {
         try {
             // parse
             parsedDate = dateFormat.parse(check_out);
+            this.check_out = parsedDate;
         } catch (ParseException e) {
             e.printStackTrace();
-        } finally {
-            // set date or null
-            this.check_out = parsedDate;
         }
+    }
+
+    /**
+     * Check if visitor is checked in
+     *  true if checked in
+     *  false if not
+     *
+     * @return boolean
+     */
+    public boolean isChecked_In() {
+        return this.check_in != null;
+    }
+
+    /**
+     * Check if user is checked out
+     *  true if checked out
+     *  false if not
+     *
+     * @return boolean
+     */
+    public boolean isChecked_Out() {
+        return this.check_out != null;
     }
 }

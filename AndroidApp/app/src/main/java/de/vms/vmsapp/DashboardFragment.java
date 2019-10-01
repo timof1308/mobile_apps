@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,6 +46,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import de.vms.vmsapp.Adapters.RoomEquipmentListAdapter;
+import de.vms.vmsapp.Adapters.VisitorListAdapter;
+import de.vms.vmsapp.Models.Company;
+import de.vms.vmsapp.Models.Meeting;
+import de.vms.vmsapp.Models.Room;
+import de.vms.vmsapp.Models.User;
+import de.vms.vmsapp.Models.Visitor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -51,6 +60,7 @@ import okhttp3.Response;
 public class DashboardFragment extends Fragment {
     // UI elements
     private View view;
+    private ListView visitorListView;
     private TextView activeValueTextView;
     private TextView planendValueTextView;
     private TextView totalValueTextView;
@@ -70,6 +80,7 @@ public class DashboardFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         // define elements to manipulate
+        visitorListView = (ListView) view.findViewById(R.id.visitorListView);
         activeValueTextView = (TextView) view.findViewById(R.id.activeValueTextView);
         planendValueTextView = (TextView) view.findViewById(R.id.planendValueTextView);
         totalValueTextView = (TextView) view.findViewById(R.id.totalValueTextView);
@@ -84,8 +95,9 @@ public class DashboardFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         // load dashboard data
-        getDashboardData();
         String date = new SimpleDateFormat("YYYY-MM-dd").format(new Date());
+        getVisitors(date);
+        getDashboardData();
         getWeekData(date);
         getCompanyData();
 
@@ -125,7 +137,122 @@ public class DashboardFragment extends Fragment {
         // update text edit text
         dateEditText.setText(sdf.format(myCalendar.getTime()));
         // get data for new date
+        getVisitors(sdf.format(myCalendar.getTime()));
         getWeekData(sdf.format(myCalendar.getTime()));
+    }
+
+    public void getVisitors(String date) {
+        AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                OkHttpClient client = new OkHttpClient();
+                // prepare request
+                // @TODO: get jwt from local storage
+                Request request = new Request.Builder()
+                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjYsImlkIjo2LCJuYW1lIjoiVGVzdCBVc2VyIiwiZW1haWwiOiJ2bXMud3dpMTdzY2FAZ21haWwuY29tIiwicGFzc3dvcmQiOiI5MzdlOGQ1ZmJiNDhiZDQ5NDk1MzZjZDY1YjhkMzVjNDI2YjgwZDJmODMwYzVjMzA4ZTJjZGVjNDIyYWUyMjQ0Iiwicm9sZSI6MSwidG9rZW4iOm51bGwsImlhdCI6MTU2OTU5MjI0Mn0.R6bRJ21QNe-Er5GnakGQAY7YK1KPbN79gX67huhfzO4")
+                        .url("http://35.184.56.207/api/dashboard/visitors/" + date)
+                        .build();
+
+                // run request
+                try (Response response = client.newCall(request).execute()) {
+                    if (!response.isSuccessful())
+                        throw new IOException("Unexpected code " + response);
+
+                    // return response as string to "onPostExecute"
+                    return response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                if (s != null) {
+                    // LOG response
+                    Log.d("visitors", s);
+                    try {
+                        // pass to function to display data and render view
+                        loadVisitorListView(s);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        asyncTask.execute();
+    }
+
+    public void loadVisitorListView(String json) throws JSONException, ParseException {
+        // convert json string to json object
+        JSONArray jsonArray = new JSONArray(json);
+        // prepare array list for rooms for adapter
+        ArrayList<Visitor> visitors = new ArrayList<Visitor>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            // get json object from array
+            JSONObject obj = jsonArray.getJSONObject(i);
+            // parse json
+            Visitor visitor = new Visitor();
+            visitor.setId(obj.getInt("id"));
+            visitor.setName(obj.getString("name"));
+            visitor.setEmail(obj.getString("email"));
+            visitor.setTel(obj.getString("tel"));
+            if (!obj.getString(("check_in")).equals("null")) {
+                visitor.setCheck_in(obj.getString("check_in"));
+            }
+            if (!obj.getString(("check_out")).equals("null")) {
+                visitor.setCheck_out(obj.getString("check_out"));
+            }
+
+            // get nested json objects
+            JSONObject companyJson = new JSONObject(obj.getString("company"));
+            JSONObject meetingJson = new JSONObject(obj.getString("meeting"));
+            JSONObject roomJson = new JSONObject(meetingJson.getString("room"));
+            JSONObject userJson = new JSONObject(meetingJson.getString("user"));
+            // company
+            Company c = new Company();
+            c.setId(companyJson.getInt("id"));
+            c.setName(companyJson.getString("name"));
+            // assign company to visitor
+            visitor.setCompany(c);
+            // meeting -> user / host
+            User u = new User();
+            u.setId(userJson.getInt("id"));
+            u.setName(userJson.getString("name"));
+            u.setEmail(userJson.getString("email"));
+            // meeting -> room
+            Room r = new Room();
+            r.setId(roomJson.getInt("id"));
+            r.setName(roomJson.getString("name"));
+            // meeting
+            Meeting m = new Meeting();
+            m.setId(meetingJson.getInt("id"));
+            m.setDate(meetingJson.getString("date"));
+            m.setDuration(meetingJson.getInt("duration"));
+            m.setRoom(r);
+            m.setUser(u);
+            // assign meeting to visitor
+            visitor.setMeeting(m);
+
+            Log.v("visitor fragment object", visitor.getName() + " " + visitor.getId());
+
+            // add room to array list
+            visitors.add(visitor);
+
+            Log.v("visitor fragment array", visitors.get(i).getName() + " " + visitors.get(i).getId());
+
+        }
+
+        Log.v("visitors size", "" + visitors.size());
+        for (int i = 0; i < visitors.size(); i++) {
+            System.out.println("visitor loop " + visitors.get(i).getName() + " " + visitors.get(i).getId());
+        }
+
+        VisitorListAdapter arrayAdapter = new VisitorListAdapter(getActivity(), visitors);
+        visitorListView.setAdapter(arrayAdapter);
     }
 
     public void getDashboardData() {
