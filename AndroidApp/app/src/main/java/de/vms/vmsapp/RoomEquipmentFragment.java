@@ -30,10 +30,8 @@ import de.vms.vmsapp.Adapters.RoomEquipmentListAdapter;
 import de.vms.vmsapp.Models.Equipment;
 import de.vms.vmsapp.Models.Room;
 import de.vms.vmsapp.Models.RoomEquipment;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RoomEquipmentFragment extends Fragment {
@@ -75,7 +73,7 @@ public class RoomEquipmentFragment extends Fragment {
         // set fragment top name
         roomNameTextView.setText(roomName);
 
-        btn_delete_room = (Button) view.findViewById(R.id.btn_delete_room);
+        btn_delete_room = (Button) view.findViewById(R.id.deleteRoomButton);
         btn_delete_room.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
