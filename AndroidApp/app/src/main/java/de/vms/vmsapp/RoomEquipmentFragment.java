@@ -1,5 +1,7 @@
 package de.vms.vmsapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +43,7 @@ public class RoomEquipmentFragment extends Fragment {
     private ListView listView;
     private int roomId;
     private String roomName;
+    private Button deleteRoomButton;
 
     private Button btn_delete_room;
 
@@ -67,6 +71,7 @@ public class RoomEquipmentFragment extends Fragment {
         // define listView to render elements
         listView = (ListView) view.findViewById(R.id.roomEquipmentListView);
         roomNameTextView = (TextView) view.findViewById(R.id.roomNameTextView);
+        deleteRoomButton = (Button) view.findViewById(R.id.deleteRoomButton);
         // set fragment top name
         roomNameTextView.setText(roomName);
 
@@ -84,6 +89,22 @@ public class RoomEquipmentFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        deleteRoomButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getContext(), R.style.DialogTheme)
+                        .setTitle(getContext().getString(R.string.delete_room_title))
+                        .setMessage(getContext().getString(R.string.delete_room_text))
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // send request to delete visitor
+                                deleteRoom();
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
+            }
+        });
 
         // load rooms
         getEquipment();
@@ -243,7 +264,6 @@ public class RoomEquipmentFragment extends Fragment {
             protected String doInBackground(Void... params) {
                 OkHttpClient client = new OkHttpClient();
 
-
                 // prepare request
                 // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
@@ -268,18 +288,21 @@ public class RoomEquipmentFragment extends Fragment {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+                if (s != null) {
+                    // LOG response
+                    Log.d("delete", s);
 
-//                if (s != null) {
-//                    // LOG response
-//                    Log.d("rooms", s);
-//                    try {
-//                        // pass to function to create List View elements and render view
-//                        loadListView(s);
-//                        getRoomEquipment();
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+                    RoomsFragment room_fragment = new RoomsFragment();
+
+                    // Create new fragment and transaction
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    // Replace whatever is in the fragment_container view with this fragment, and add the transaction to the back stack
+                    transaction.replace(R.id.fragment_container, room_fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+
+                    Toast.makeText(getActivity(), getContext().getString(R.string.delete_room_success), Toast.LENGTH_SHORT).show();
+                }
             }
         };
 

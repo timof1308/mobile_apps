@@ -24,6 +24,10 @@
     <string name="forgot_password">Forgot your password?</string>
 
     <string name="new_room">Create new room</string>
+    <string name="delete_room">Delete room</string>
+    <string name="delete_room_title">Delete this room?</string>
+    <string name="delete_room_text">This step can not be undone.</string>
+    <string name="delete_room_success">Room has been deleted.</string>
 
     <string name="dashboard_active">Currently Checked In</string>
     <string name="dashboard_planned">Expected today</string>
