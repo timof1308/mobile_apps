@@ -1,11 +1,14 @@
 package de.vms.vmsapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +41,7 @@ public class RoomEquipmentFragment extends Fragment {
     private ListView listView;
     private int roomId;
     private String roomName;
+    private Button deleteRoomButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +65,7 @@ public class RoomEquipmentFragment extends Fragment {
         // define listView to render elements
         listView = (ListView) view.findViewById(R.id.roomEquipmentListView);
         roomNameTextView = (TextView) view.findViewById(R.id.roomNameTextView);
+        deleteRoomButton = (Button) view.findViewById(R.id.deleteRoomButton);
         // set fragment top name
         roomNameTextView.setText(roomName);
 
@@ -69,6 +75,22 @@ public class RoomEquipmentFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        deleteRoomButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getContext(), R.style.DialogTheme)
+                        .setTitle(getContext().getString(R.string.delete_room_title))
+                        .setMessage(getContext().getString(R.string.delete_room_text))
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // send request to delete visitor
+                                deleteRoom();
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
+            }
+        });
 
         // load rooms
         getEquipment();
@@ -220,5 +242,55 @@ public class RoomEquipmentFragment extends Fragment {
                 }
             }
         }
+    }
+
+    public void deleteRoom() {
+        AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                OkHttpClient client = new OkHttpClient();
+                // prepare request
+                // @TODO: get jwt from local storage
+                Request request = new Request.Builder()
+                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjYsImlkIjo2LCJuYW1lIjoiVGVzdCBVc2VyIiwiZW1haWwiOiJ2bXMud3dpMTdzY2FAZ21haWwuY29tIiwicGFzc3dvcmQiOiI5MzdlOGQ1ZmJiNDhiZDQ5NDk1MzZjZDY1YjhkMzVjNDI2YjgwZDJmODMwYzVjMzA4ZTJjZGVjNDIyYWUyMjQ0Iiwicm9sZSI6MSwidG9rZW4iOm51bGwsImlhdCI6MTU2OTU5MjI0Mn0.R6bRJ21QNe-Er5GnakGQAY7YK1KPbN79gX67huhfzO4")
+                        .url("http://35.184.56.207/api/rooms/" + roomId)
+                        .delete()
+                        .build();
+
+                // run request
+                try (Response response = client.newCall(request).execute()) {
+                    if (!response.isSuccessful())
+                        throw new IOException("Unexpected code " + response);
+
+                    // return response as string to "onPostExecute"
+                    return response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                if (s != null) {
+                    // LOG response
+                    Log.d("delete", s);
+
+                    RoomsFragment room_fragment = new RoomsFragment();
+
+                    // Create new fragment and transaction
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    // Replace whatever is in the fragment_container view with this fragment, and add the transaction to the back stack
+                    transaction.replace(R.id.fragment_container, room_fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+
+                    Toast.makeText(getActivity(), getContext().getString(R.string.delete_room_success), Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
+        asyncTask.execute();
     }
 }
