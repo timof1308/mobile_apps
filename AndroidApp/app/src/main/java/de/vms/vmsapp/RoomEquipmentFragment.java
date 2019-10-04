@@ -30,8 +30,10 @@ import de.vms.vmsapp.Adapters.RoomEquipmentListAdapter;
 import de.vms.vmsapp.Models.Equipment;
 import de.vms.vmsapp.Models.Room;
 import de.vms.vmsapp.Models.RoomEquipment;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RoomEquipmentFragment extends Fragment {
@@ -42,6 +44,8 @@ public class RoomEquipmentFragment extends Fragment {
     private int roomId;
     private String roomName;
     private Button deleteRoomButton;
+
+    private Button btn_delete_room;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +59,8 @@ public class RoomEquipmentFragment extends Fragment {
             // no room id passed
             Toast.makeText(getActivity(), "No room selected", Toast.LENGTH_LONG).show();
         }
+
+
     }
 
     @Nullable
@@ -68,6 +74,14 @@ public class RoomEquipmentFragment extends Fragment {
         deleteRoomButton = (Button) view.findViewById(R.id.deleteRoomButton);
         // set fragment top name
         roomNameTextView.setText(roomName);
+
+        btn_delete_room = (Button) view.findViewById(R.id.btn_delete_room);
+        btn_delete_room.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteRoom();
+            }
+        });
 
         return view;
     }
@@ -249,6 +263,7 @@ public class RoomEquipmentFragment extends Fragment {
             @Override
             protected String doInBackground(Void... params) {
                 OkHttpClient client = new OkHttpClient();
+
                 // prepare request
                 // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
