@@ -115,7 +115,6 @@ public class DashboardFragment extends Fragment {
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateLabel();
             }
-
         };
 
         // open date picker dialog on text edit focus
