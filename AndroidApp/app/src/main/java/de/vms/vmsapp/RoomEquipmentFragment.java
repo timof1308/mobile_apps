@@ -94,7 +94,8 @@ public class RoomEquipmentFragment extends Fragment {
                 new AlertDialog.Builder(getContext(), R.style.DialogTheme)
                         .setTitle(getContext().getString(R.string.delete_room_title))
                         .setMessage(getContext().getString(R.string.delete_room_text))
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        //.setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(R.drawable.ic_dialog_alert2)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 // send request to delete visitor
