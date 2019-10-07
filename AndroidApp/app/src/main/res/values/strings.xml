@@ -44,4 +44,10 @@
     <string name="meeting_duration_placeholder">Enter meeting duration in minutes</string>
     <string name="meeting_room">Select meeting room</string>
     <string name="meeting_add_visitor">Add visitor</string>
+
+    <string name="dialog_visitor_heading">Add new visitor</string>
+    <string name="dialog_visitor_name">Enter name</string>
+    <string name="dialog_visitor_email">Enter e-mail address</string>
+    <string name="dialog_visitor_tel">Enter telephone number</string>
+    <string name="dialog_visitor_company">Select company</string>
 </resources>

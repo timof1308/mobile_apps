@@ -107,6 +107,16 @@ public class MeetingBundleFragment extends Fragment {
             }
         });
 
+        addVisitorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // open alert dialog for visitor input
+                Log.v("button", "click");
+                CreateVisitorDialog dialog = new CreateVisitorDialog();
+                dialog.show(getFragmentManager(), "CreateVisitorDialog");
+            }
+        });
+
         getRooms();
     }
 
