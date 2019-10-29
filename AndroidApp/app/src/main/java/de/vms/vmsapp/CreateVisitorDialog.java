@@ -5,15 +5,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+import de.vms.vmsapp.Adapters.CompanySpinnerAdapter;
 import de.vms.vmsapp.Models.Company;
 
 public class CreateVisitorDialog extends DialogFragment {
@@ -25,6 +31,13 @@ public class CreateVisitorDialog extends DialogFragment {
     private EditText visitorTelEditText;
     private Spinner companySpinner;
     private Company company;
+    private ArrayList<Company> companies;
+
+    public static CreateVisitorDialog getInstanceFor(ArrayList<Company> companies) {
+        CreateVisitorDialog cvd = new CreateVisitorDialog();
+        cvd.companies = companies;
+        return cvd;
+    }
 
     @Nullable
     @Override
@@ -37,6 +50,24 @@ public class CreateVisitorDialog extends DialogFragment {
         visitorEmailEditText = (EditText) view.findViewById(R.id.emailEditText);
         visitorTelEditText = (EditText) view.findViewById(R.id.telEditText);
         companySpinner = (Spinner) view.findViewById(R.id.companySpinner);
+
+        // set spinner list items
+        CompanySpinnerAdapter arrayAdapter = new CompanySpinnerAdapter(getActivity(), companies);
+        companySpinner.setAdapter(arrayAdapter);
+
+        // company spinner on select item event
+        companySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                company = (Company) parent.getItemAtPosition(position);
+                Toast.makeText(getActivity(), company.getName(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //
+            }
+        });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
