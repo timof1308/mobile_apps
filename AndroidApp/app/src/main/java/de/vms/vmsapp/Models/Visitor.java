@@ -1,10 +1,17 @@
 package de.vms.vmsapp.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Visitor {
+/**
+ * Visitor Class
+ * implements Parcelable to send visitor from fragment to another fragment
+ */
+public class Visitor implements Parcelable {
     private int id;
     private String name;
     private String email;
@@ -28,6 +35,25 @@ public class Visitor {
         this.setCheck_in(check_in);
         this.setCheck_out(check_out);
     }
+
+    protected Visitor(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        email = in.readString();
+        tel = in.readString();
+    }
+
+    public static final Creator<Visitor> CREATOR = new Creator<Visitor>() {
+        @Override
+        public Visitor createFromParcel(Parcel in) {
+            return new Visitor(in);
+        }
+
+        @Override
+        public Visitor[] newArray(int size) {
+            return new Visitor[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -131,5 +157,18 @@ public class Visitor {
      */
     public boolean isChecked_Out() {
         return this.check_out != null;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(email);
+        dest.writeString(tel);
     }
 }

@@ -1,7 +1,9 @@
 package de.vms.vmsapp;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -31,10 +32,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-import de.vms.vmsapp.Adapters.RoomListAdapter;
 import de.vms.vmsapp.Adapters.RoomSpinnerAdapter;
 import de.vms.vmsapp.Models.Company;
 import de.vms.vmsapp.Models.Room;
+import de.vms.vmsapp.Models.Visitor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -52,6 +53,9 @@ public class MeetingBundleFragment extends Fragment {
     private Room room;
     private ArrayList<Room> rooms;
     private ArrayList<Company> companies;
+    private ArrayList<Visitor> visitors;
+    private static final int TARGET_FRAGMENT_REQUEST_CODE = 1;
+    private static final String EXTRA_VISITOR_MESSAGE = "visitor";
 
     @Nullable
     @Override
@@ -113,8 +117,8 @@ public class MeetingBundleFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // open alert dialog for visitor input
-                Log.v("button", "click");
                 CreateVisitorDialog dialog = CreateVisitorDialog.getInstanceFor(companies);
+                dialog.setTargetFragment(MeetingBundleFragment.this, TARGET_FRAGMENT_REQUEST_CODE);
                 dialog.show(getFragmentManager(), "CreateVisitorDialog");
             }
         });
@@ -132,6 +136,24 @@ public class MeetingBundleFragment extends Fragment {
 
         // update text edit text
         dateEditText.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    public static Intent newIntent(Visitor visitor) {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_VISITOR_MESSAGE, visitor);
+        return intent;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (requestCode == TARGET_FRAGMENT_REQUEST_CODE) {
+            Visitor v = data.getExtras().getParcelable(EXTRA_VISITOR_MESSAGE);
+            // @TODO: HANDLE AND SAVE VISITOR IN FRAGMENT TO SEND REQUEST
+            visitors.add(v);
+        }
     }
 
     private void getRooms() {

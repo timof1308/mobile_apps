@@ -1,12 +1,13 @@
 package de.vms.vmsapp;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -16,11 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import de.vms.vmsapp.Adapters.CompanySpinnerAdapter;
 import de.vms.vmsapp.Models.Company;
+import de.vms.vmsapp.Models.Visitor;
 
 public class CreateVisitorDialog extends DialogFragment {
     private View view;
@@ -79,12 +80,32 @@ public class CreateVisitorDialog extends DialogFragment {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // @TODO: get data form input
+                // get data from input fields
+                String name = visitorNameEditText.getText().toString();
+                String email = visitorEmailEditText.getText().toString();
+                String tel = visitorTelEditText.getText().toString();
+                // create new visitor
+                Visitor visitor = new Visitor();
+                visitor.setName(name);
+                visitor.setEmail(email);
+                visitor.setTel(tel);
+                visitor.setCompany(company);
+
                 Log.d("DIALOG", "submit");
-                getDialog().dismiss();
+                // pass visitor to fragment
+                sendResults(visitor);
             }
         });
 
         return view;
+    }
+
+    private void sendResults(Visitor visitor) {
+        if (getTargetFragment() == null) {
+            return;
+        }
+        Intent intent = MeetingBundleFragment.newIntent(visitor);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+        dismiss();
     }
 }
