@@ -53,8 +53,21 @@
 
     <Button
         android:id="@+id/addVisitorButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/meeting_add_visitor" />
+
+    <ListView
+        android:id="@+id/visitorsListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/createMeetingButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="@string/create_meeting" />
 
 </LinearLayout>

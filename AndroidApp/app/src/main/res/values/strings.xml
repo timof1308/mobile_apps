@@ -50,4 +50,6 @@
     <string name="dialog_visitor_email">Enter e-mail address</string>
     <string name="dialog_visitor_tel">Enter telephone number</string>
     <string name="dialog_visitor_company">Select company</string>
+
+    <string name="create_meeting">Create Meeting</string>
 </resources>

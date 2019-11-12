@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -46,6 +47,8 @@ public class MeetingBundleFragment extends Fragment {
     private EditText durationEditText;
     private Spinner roomSpinner;
     private Button addVisitorButton;
+    private Button createMeetingButton;
+    private ListView visitorsListView;
     private final Calendar myCalendar = Calendar.getInstance();
 
     private String date;
@@ -53,9 +56,10 @@ public class MeetingBundleFragment extends Fragment {
     private Room room;
     private ArrayList<Room> rooms;
     private ArrayList<Company> companies;
-    private ArrayList<Visitor> visitors;
+    private ArrayList<Visitor> visitors = new ArrayList<Visitor>();
     private static final int TARGET_FRAGMENT_REQUEST_CODE = 1;
     private static final String EXTRA_VISITOR_MESSAGE = "visitor";
+    private BundleVisitorListAdapter arrayAdapter;
 
     @Nullable
     @Override
@@ -66,6 +70,8 @@ public class MeetingBundleFragment extends Fragment {
         durationEditText = (EditText) view.findViewById(R.id.durationEditText);
         roomSpinner = (Spinner) view.findViewById(R.id.roomSpinner);
         addVisitorButton = (Button) view.findViewById(R.id.addVisitorButton);
+        createMeetingButton = (Button) view.findViewById(R.id.createMeetingButton);
+        visitorsListView = (ListView) view.findViewById(R.id.visitorsListView);
 
         return view;
     }
@@ -123,6 +129,17 @@ public class MeetingBundleFragment extends Fragment {
             }
         });
 
+        createMeetingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                visitors = arrayAdapter.getVisitors();
+                createMeeting();
+            }
+        });
+
+        arrayAdapter = new BundleVisitorListAdapter(getActivity(), visitors);
+        visitorsListView.setAdapter(arrayAdapter);
+
         getRooms();
         getCompanies();
     }
@@ -152,7 +169,7 @@ public class MeetingBundleFragment extends Fragment {
         if (requestCode == TARGET_FRAGMENT_REQUEST_CODE) {
             Visitor v = data.getExtras().getParcelable(EXTRA_VISITOR_MESSAGE);
             // @TODO: HANDLE AND SAVE VISITOR IN FRAGMENT TO SEND REQUEST
-            visitors.add(v);
+            arrayAdapter.addVisitor(v);
         }
     }
 
@@ -272,5 +289,10 @@ public class MeetingBundleFragment extends Fragment {
             // add room to array list
             companies.add(company);
         }
+    }
+
+    public void createMeeting() {
+        // @TODO: MAKE REST CALL TO CREATE MEETING
+        Log.d("visitors", "" + visitors.size());
     }
 }
