@@ -33,13 +33,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
             android:text="@string/registration"
             android:textColor="#000000"
             android:textSize="36sp"
-            android:layout_marginBottom="25dp"
             android:textStyle="bold" />
 
-
+        <!--Username eingeben-->
         <TextView
             android:id="@+id/username"
             android:layout_width="match_parent"
@@ -48,15 +48,27 @@
             android:textColor="#000000"
             android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/enter_username"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:hint="@string/enter_username"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+            app:counterEnabled="true"
+            app:counterMaxLength="30"
+            app:errorEnabled="true">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:hint="@string/enter_username"
+                android:inputType="text"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--E-Mailadresse eingeben       -->
         <TextView
             android:id="@+id/email"
             android:layout_width="match_parent"
@@ -65,15 +77,24 @@
             android:textColor="#000000"
             android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/enter_email"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:hint="@string/enter_email"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+            app:errorEnabled="true">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:hint="@string/enter_email"
+                android:inputType="textEmailAddress"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Passwort eingeben-->
         <TextView
             android:id="@+id/password"
             android:layout_width="match_parent"
@@ -82,15 +103,24 @@
             android:textColor="#000000"
             android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/provide_password"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:hint="@string/choose_password"
-            android:inputType="textPassword"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+            app:errorEnabled="true"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:hint="@string/choose_password"
+                android:inputType="textPassword"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <TextView
             android:id="@+id/confirm_password"
@@ -100,27 +130,36 @@
             android:textColor="#000000"
             android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/provide_confirm_password"
+        <!--Passwortvergleich noch nicht implementiert-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:hint="@string/enter_password_again"
-            android:inputType="textPassword"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+            app:errorEnabled="true"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:hint="@string/enter_password_again"
+                android:inputType="textPassword"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <Button
-            android:id="@+id/login"
+            android:id="@+id/register"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_gravity="center"
             android:background="#2196F3"
+            android:onClick="confirmInput"
             android:text="@string/registration"
             android:textColor="#FFFFFF"
             android:textSize="14sp" />
-
 
     </LinearLayout>
 
