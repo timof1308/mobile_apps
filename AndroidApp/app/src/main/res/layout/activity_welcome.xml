@@ -46,4 +46,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/verlinkung_firma_anlegen_von_home"
+        android:layout_width="115dp"
+        android:layout_height="58dp"
+        android:text="@string/verlinkung_firma_anlegen_von_home"
+        app:layout_constraintBottom_toTopOf="@+id/testMenu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/openRegistration" />
 </androidx.constraintlayout.widget.ConstraintLayout>
