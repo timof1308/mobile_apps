@@ -1,4 +1,4 @@
-package de.vms.vmsapp;
+package de.vms.vmsapp.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 import de.vms.vmsapp.Models.Visitor;
+import de.vms.vmsapp.R;
 
 public class BundleVisitorListAdapter extends ArrayAdapter<Visitor> {
     private ArrayList<Visitor> visitors;

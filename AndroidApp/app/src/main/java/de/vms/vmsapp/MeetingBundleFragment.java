@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import de.vms.vmsapp.Adapters.BundleVisitorListAdapter;
 import de.vms.vmsapp.Adapters.RoomSpinnerAdapter;
 import de.vms.vmsapp.Models.Company;
 import de.vms.vmsapp.Models.Room;
@@ -110,7 +110,6 @@ public class MeetingBundleFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 room = (Room) parent.getItemAtPosition(position);
-                Toast.makeText(getActivity(), room.getName(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -155,6 +154,11 @@ public class MeetingBundleFragment extends Fragment {
         dateEditText.setText(sdf.format(myCalendar.getTime()));
     }
 
+    /**
+     * Accept intent from other fragment to pass data from
+     * @param visitor needs parcelable implementation
+     * @return
+     */
     public static Intent newIntent(Visitor visitor) {
         Intent intent = new Intent();
         intent.putExtra(EXTRA_VISITOR_MESSAGE, visitor);
@@ -217,6 +221,11 @@ public class MeetingBundleFragment extends Fragment {
         asyncTask.execute();
     }
 
+    /**
+     * Update room drop down spinner
+     * @param json
+     * @throws JSONException
+     */
     private void updateRoomSpinner(String json) throws JSONException {
         JSONArray jsonArray = new JSONArray(json);
         // prepare array list for rooms for adapter
