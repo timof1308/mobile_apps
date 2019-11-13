@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,8 +38,11 @@ import de.vms.vmsapp.Adapters.RoomSpinnerAdapter;
 import de.vms.vmsapp.Models.Company;
 import de.vms.vmsapp.Models.Room;
 import de.vms.vmsapp.Models.Visitor;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MeetingBundleFragment extends Fragment {
@@ -131,8 +135,23 @@ public class MeetingBundleFragment extends Fragment {
         createMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // prepare and get data for body
                 visitors = arrayAdapter.getVisitors();
-                createMeeting();
+                String date = dateEditText.getText().toString();
+                int duration;
+                if (!durationEditText.getText().toString().equals("")) {
+                    duration = Integer.parseInt(durationEditText.getText().toString());
+                } else {
+                    duration = 0;
+                }
+                int room_id = room.getId();
+                // @TODO: GET USER ID FROM JWT
+                int user_id = 6;
+                if (visitors.size() == 0 || date == null || duration < 1) {
+                    Toast.makeText(getContext(), "Please check the fields above and add at least one visitor for your meeting", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                createMeeting(user_id, room_id, date, duration);
             }
         });
 
@@ -156,6 +175,7 @@ public class MeetingBundleFragment extends Fragment {
 
     /**
      * Accept intent from other fragment to pass data from
+     *
      * @param visitor needs parcelable implementation
      * @return
      */
@@ -223,6 +243,7 @@ public class MeetingBundleFragment extends Fragment {
 
     /**
      * Update room drop down spinner
+     *
      * @param json
      * @throws JSONException
      */
@@ -300,8 +321,81 @@ public class MeetingBundleFragment extends Fragment {
         }
     }
 
-    public void createMeeting() {
-        // @TODO: MAKE REST CALL TO CREATE MEETING
-        Log.d("visitors", "" + visitors.size());
+    public void createMeeting(int user_id, int room_id, String date, int duration) {
+        AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                OkHttpClient client = new OkHttpClient();
+
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("user_id", user_id);
+                    // add seconds to date
+                    jsonObject.put("date", date + ":00");
+                    jsonObject.put("duration", duration);
+                    jsonObject.put("room_id", room_id);
+                    JSONArray nested_visitors = new JSONArray();
+                    jsonObject.put("visitor", nested_visitors);
+
+                    for (Visitor v : visitors) {
+                        JSONObject nested_v = new JSONObject();
+                        nested_v.put("name", v.getName());
+                        nested_v.put("email", v.getEmail());
+                        nested_v.put("tel", v.getTel());
+                        nested_v.put("company_id", v.getCompany().getId());
+                        nested_visitors.put(nested_v);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Log.d("JSON", jsonObject.toString());
+
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
+
+                // prepare request
+                // @TODO: get jwt from local storage
+                Request request = new Request.Builder()
+                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjYsImlkIjo2LCJuYW1lIjoiVGVzdCBVc2VyIiwiZW1haWwiOiJ2bXMud3dpMTdzY2FAZ21haWwuY29tIiwicGFzc3dvcmQiOiI5MzdlOGQ1ZmJiNDhiZDQ5NDk1MzZjZDY1YjhkMzVjNDI2YjgwZDJmODMwYzVjMzA4ZTJjZGVjNDIyYWUyMjQ0Iiwicm9sZSI6MSwidG9rZW4iOm51bGwsImlhdCI6MTU2OTU5MjI0Mn0.R6bRJ21QNe-Er5GnakGQAY7YK1KPbN79gX67huhfzO4")
+                        .url("http://35.184.56.207/api/meetings/bundle")
+                        .post(body)
+                        .build();
+
+                // run request
+                try (Response response = client.newCall(request).execute()) {
+                    if (!response.isSuccessful())
+                        throw new IOException("Unexpected code " + response.body().string());
+
+                    // return response as string to "onPostExecute"
+                    return response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                if (s != null) {
+                    // LOG response
+                    Log.d("data", s);
+                    // show toast
+                    Toast.makeText(getContext(), "Meeting successfully created", Toast.LENGTH_SHORT).show();
+                    // "go back" to meetings fragment
+                    getFragmentManager().popBackStack();
+//                    try {
+//                        // pass to function to create List View elements and render view
+//                        loadIntoListView(s);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+                }
+            }
+        };
+
+        asyncTask.execute();
     }
 }
