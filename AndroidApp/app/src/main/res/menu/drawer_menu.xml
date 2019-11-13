@@ -21,8 +21,11 @@
             android:title="Profile"/>
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="ADMINISTRATION">
         <menu>
+            <item android:id="@+id/nav_companies"
+                android:icon="@drawable/ic_rooms"
+                android:title="Companies"/>
             <item android:id="@+id/nav_share"
                 android:icon="@drawable/ic_share"
                 android:title="Share"/>

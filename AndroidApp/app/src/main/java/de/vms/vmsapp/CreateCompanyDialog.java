@@ -1,31 +1,43 @@
 package de.vms.vmsapp;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
+import de.vms.vmsapp.Models.Company;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class CreateCompanyFragment extends DialogFragment {
+public class CreateCompanyDialog extends DialogFragment {
 
+    private EditText edit_companyname;
 
-    EditText edit_companyname;
+    public static CreateCompanyDialog getInstanceFor() {
+        CreateCompanyDialog cvd = new CreateCompanyDialog();
+        // in case method accepts passed variables pass handling here
+        return cvd;
+    }
 
     @NonNull
     @Override
@@ -46,19 +58,18 @@ public class CreateCompanyFragment extends DialogFragment {
             }
         });
 
-
         builder.setView(view)
                 .setTitle("Create Company")
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        
                     }
                 })
                 .setPositiveButton("create", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        createRoom(edit_companyname.getText().toString());
+                        createCompany(edit_companyname.getText().toString());
                         // @TODO: refresh rooms (getRooms())
                     }
                 });
@@ -68,7 +79,7 @@ public class CreateCompanyFragment extends DialogFragment {
     /**
      * Create a new room
      */
-    private void createRoom(final String s) {
+    private void createCompany(final String s) {
         AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -105,12 +116,12 @@ public class CreateCompanyFragment extends DialogFragment {
                 if (s != null) {
                     // LOG response
                     Log.d("data", s);
-//                    try {
-//                        // pass to function to create List View elements and render view
-//                        loadIntoListView(s);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        // pass to function to create List View elements and render view
+                        parseResponse(s);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
@@ -118,8 +129,24 @@ public class CreateCompanyFragment extends DialogFragment {
         asyncTask.execute();
     }
 
-
+    /**
+     * parse create company response from json to object
+     * @param json
+     * @throws JSONException
+     */
+    private void parseResponse(String json) throws JSONException {
+        // create json object
+        JSONObject obj = new JSONObject(json);
+        // create company
+        Company company = new Company(obj.getInt("id"), obj.getString("name"));
+        Log.d("data", "" + company.getId());
+        // get target fragment
+        if (getTargetFragment() == null) {
+            return;
+        }
+        // prepare intent
+        Intent intent = CompaniesFragment.newIntent(company);
+        // send intent from dialog to fragment
+        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+    }
 }
-
-
-

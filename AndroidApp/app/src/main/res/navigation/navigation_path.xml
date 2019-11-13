@@ -62,9 +62,4 @@
         android:name="de.vms.vmsapp.RoomEquipmentFragment"
         android:label="fragment_room_requipment"
         tools:layout="@layout/fragment_room_requipment" />
-    <activity
-        android:id="@+id/activity_company"
-        android:name="de.vms.vmsapp.activity_company"
-        android:label="activity_company"
-        tools:layout="@layout/activity_company" />
 </navigation>

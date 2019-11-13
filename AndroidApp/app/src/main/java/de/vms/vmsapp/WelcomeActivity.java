@@ -2,10 +2,8 @@ package de.vms.vmsapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -46,23 +44,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
         });
-
-
-        Button buttonFirma = findViewById(R.id.verlinkung_firma_anlegen_von_home);
-
-
-
-        buttonFirma.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               // Log.d("helloooo", "zweiiii");
-                openActivityCompany();
-            }
-
-        });
-
-
-
     }
 
     private void openLoginActivity() {
@@ -79,13 +60,4 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
-
-
-    public void openActivityCompany(){
-        Intent intent = new Intent(this, activity_company.class);
-        startActivity(intent);
-    }
-
-
 }
