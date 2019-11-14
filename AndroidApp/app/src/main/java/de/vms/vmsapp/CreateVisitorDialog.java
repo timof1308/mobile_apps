@@ -61,7 +61,6 @@ public class CreateVisitorDialog extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 company = (Company) parent.getItemAtPosition(position);
-                Toast.makeText(getActivity(), company.getName(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

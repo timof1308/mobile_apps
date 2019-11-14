@@ -38,6 +38,7 @@
     <string name="dashboard_delete_text">Are you sure to delete this visitor?</string>
     <string name="dashboard_delete_forbidden">Visitor can not be deleted because the vistor is either checked in or checked out.</string>
 
+    <string name="new_meeting">Create new Meeting</string>
     <string name="meeting_date">Date</string>
     <string name="meeting_date_placeholder">Enter date</string>
     <string name="meeting_duration">Meeting duration</string>
