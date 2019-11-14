@@ -21,20 +21,23 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import de.vms.vmsapp.DashboardFragment;
 import de.vms.vmsapp.Models.Visitor;
 import de.vms.vmsapp.R;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class VisitorListAdapter extends ArrayAdapter<Visitor> {
+public class DashboardVisitorListAdapter extends ArrayAdapter<Visitor> {
     private ArrayList<Visitor> visitors;
     private Button actionButton;
     private Button deleteButton;
+    private DashboardFragment dashboard_fragment;
 
-    public VisitorListAdapter(Context context, ArrayList<Visitor> visitors) {
+    public DashboardVisitorListAdapter(Context context, ArrayList<Visitor> visitors, DashboardFragment df) {
         super(context, 0, visitors);
         this.visitors = visitors;
+        this.dashboard_fragment = df;
     }
 
     @Override
@@ -71,6 +74,8 @@ public class VisitorListAdapter extends ArrayAdapter<Visitor> {
                     // visitor is checked in -> check out
                     checkOutVisitor(visitor.getId(), position);
                 }
+                // update stats
+                dashboard_fragment.getDashboardData();
             }
         });
 
@@ -113,7 +118,7 @@ public class VisitorListAdapter extends ArrayAdapter<Visitor> {
     private void styleVisitorButtons(Visitor visitor) {
         // visitor has not checked in yet
         if (!visitor.isChecked_In()) {
-            // action button s> check in
+            // action button -> check in
             actionButton.setBackground(getContext().getDrawable(R.drawable.ic_add));
         } else {
             // action button -> check out
@@ -281,5 +286,8 @@ public class VisitorListAdapter extends ArrayAdapter<Visitor> {
         this.visitors.remove(position);
         Toast.makeText(getContext(), "Visitor has been deleted", Toast.LENGTH_SHORT).show();
         this.notifyDataSetChanged();
+
+        // update stats
+        dashboard_fragment.getDashboardData();
     }
 }
