@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/editVisitorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_visitor_heading"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editVisitorTextView"
+        android:ems="10"
+        android:hint="@string/dialog_visitor_name"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameEditText"
+        android:ems="10"
+        android:hint="@string/dialog_visitor_email"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/telEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/emailEditText"
+        android:ems="10"
+        android:hint="@string/dialog_visitor_tel"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/companyTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/telEditText"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/dialog_visitor_company" />
+
+    <Spinner
+        android:id="@+id/companySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/companyTextView" />
+
+    <Button
+        android:layout_marginTop="24dp"
+        android:id="@+id/updateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/update_visitor"
+        android:textSize="18sp" />
+
+</LinearLayout>

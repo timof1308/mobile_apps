@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import de.vms.vmsapp.DashboardFragment;
+import de.vms.vmsapp.EditVisitorFragment;
 import de.vms.vmsapp.Models.Visitor;
 import de.vms.vmsapp.R;
 import okhttp3.OkHttpClient;
@@ -30,6 +33,7 @@ import okhttp3.Response;
 
 public class DashboardVisitorListAdapter extends ArrayAdapter<Visitor> {
     private ArrayList<Visitor> visitors;
+    private Button editButton;
     private Button actionButton;
     private Button deleteButton;
     private DashboardFragment dashboard_fragment;
@@ -53,6 +57,7 @@ public class DashboardVisitorListAdapter extends ArrayAdapter<Visitor> {
         TextView nameTextView = (TextView) convertView.findViewById(R.id.nameTextView);
         TextView companyTextView = (TextView) convertView.findViewById(R.id.companyTextView);
         TextView hostTextView = (TextView) convertView.findViewById(R.id.hostTextView);
+        editButton = (Button) convertView.findViewById(R.id.editButton);
         actionButton = (Button) convertView.findViewById(R.id.actionButton);
         deleteButton = (Button) convertView.findViewById(R.id.deleteButton);
 
@@ -62,6 +67,25 @@ public class DashboardVisitorListAdapter extends ArrayAdapter<Visitor> {
         hostTextView.setText(visitor.getMeeting().getUser().getName() + " >> " + visitor.getMeeting().getRoom().getName());
 
         styleVisitorButtons(visitor);
+
+        // click event listener for edit button
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("visitor", visitor);
+
+                EditVisitorFragment edit_visitor_fragment = new EditVisitorFragment();
+                edit_visitor_fragment.setArguments(bundle);
+
+                // Create new fragment and transaction
+                FragmentTransaction transaction = dashboard_fragment.getActivity().getSupportFragmentManager().beginTransaction();
+                // Replace whatever is in the fragment_container view with this fragment, and add the transaction to the back stack
+                transaction.replace(R.id.fragment_container, edit_visitor_fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
         // click event listener for action button
         actionButton.setOnClickListener(new View.OnClickListener() {

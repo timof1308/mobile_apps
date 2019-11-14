@@ -5,10 +5,10 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:padding="12dp"
         android:layout_width="275dp"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="12dp">
 
         <TextView
             android:id="@+id/nameTextView"
@@ -33,21 +33,32 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/actionButton"
-            android:background="@drawable/ic_add"
-            android:drawableTint="@color/colorSuccess"
+            android:id="@+id/editButton"
+            android:layout_width="28dip"
+            android:layout_height="28dip"
+            android:background="@drawable/ic_edit"
             android:drawablePadding="2dip"
-            android:gravity="center"
-            android:layout_width="46dip"
-            android:layout_height="46dip" />
+            android:drawableTint="@color/colorPrimaryDark"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/actionButton"
+            android:layout_width="28dip"
+            android:layout_height="28dip"
+            android:background="@drawable/ic_add"
+            android:drawablePadding="2dip"
+            android:drawableTint="@color/colorSuccess"
+            android:gravity="center" />
 
         <Button
             android:id="@+id/deleteButton"
+            android:layout_width="28dip"
+            android:layout_height="28dip"
             android:background="@drawable/ic_trash"
-            android:drawableTint="@color/colorDanger"
             android:drawablePadding="2dip"
-            android:gravity="center"
-            android:layout_width="46dip"
-            android:layout_height="46dip" />
+            android:drawableTint="@color/colorDanger"
+            android:gravity="center" />
+
     </LinearLayout>
+
 </LinearLayout>

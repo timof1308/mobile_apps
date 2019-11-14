@@ -8,29 +8,34 @@
     <string name="registration">Register</string>
     <string name="email">E-Mail</string>
 
+    <!-- MENU -->
     <string name="meetings">Meetings</string>
     <string name="dashboard">Dashboard</string>
     <string name="profile">Profile</string>
     <string name="rooms">Rooms</string>
     <string name="companies">Companies</string>
 
+    <!-- WELCOME -->
     <string name="welcome">Welcome</string>
     <string name="scanQR">Please scan your QR code ...</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_registration">RegistrationActivity</string>
 
+    <!-- LOGIN -->
     <string name="username">Username</string>
     <string name="enter_username">Please enter your username</string>
     <string name="password">Password</string>
     <string name="enter_password">**********</string>
     <string name="forgot_password">Forgot your password?</string>
 
+    <!-- ROOM -->
     <string name="new_room">Create new room</string>
     <string name="delete_room">Delete room</string>
     <string name="delete_room_title">Delete this room?</string>
     <string name="delete_room_text">This step can not be undone.</string>
     <string name="delete_room_success">Room has been deleted.</string>
 
+    <!-- DASHBOARD -->
     <string name="dashboard_active">Currently Checked In</string>
     <string name="dashboard_planned">Expected today</string>
     <string name="dashboard_total">Total</string>
@@ -39,7 +44,8 @@
     <string name="dashboard_delete_title">Delete Visitor?</string>
     <string name="dashboard_delete_text">Are you sure to delete this visitor?</string>
     <string name="dashboard_delete_forbidden">Visitor can not be deleted because the visitor is either checked in or checked out.</string>
-  
+
+    <!-- MEETING -->
     <string name="create_meeting">Create Meeting</string>
     <string name="new_meeting">Create new Meeting</string>
     <string name="meeting_date">Date</string>
@@ -49,12 +55,17 @@
     <string name="meeting_room">Select meeting room</string>
     <string name="meeting_add_visitor">Add visitor</string>
 
+    <!-- ADD VISITOR -->
     <string name="dialog_visitor_heading">Add new visitor</string>
     <string name="dialog_visitor_name">Enter name</string>
     <string name="dialog_visitor_email">Enter e-mail address</string>
     <string name="dialog_visitor_tel">Enter telephone number</string>
     <string name="dialog_visitor_company">Select company</string>
+    <!-- EDIT VISITOR -->
+    <string name="edit_visitor_heading">Edit visitor information</string>
+    <string name="update_visitor">Update visitor</string>
 
+    <!-- COMPANY -->
     <string name="new_company">Create new Company</string>
     <string name="create_company">Create Company</string>
     <string name="delete_company">Delete Company</string>
@@ -62,6 +73,7 @@
     <string name="company_delete_title">Delete Company?</string>
     <string name="company_delete_text">Are you sure to delete this company?</string>
 
+    <!-- REGISTER -->
     <string name="enter_email">Please enter a valid email address</string>
     <string name="choose_password">Please choose a valid password</string>
     <string name="confirm_password">Confirm Password</string>

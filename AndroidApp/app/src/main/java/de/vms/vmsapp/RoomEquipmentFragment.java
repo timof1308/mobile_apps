@@ -65,7 +65,7 @@ public class RoomEquipmentFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // fragment view
-        view = inflater.inflate(R.layout.fragment_room_requipment, container, false);
+        view = inflater.inflate(R.layout.fragment_room_equipment, container, false);
         // define listView to render elements
         listView = (ListView) view.findViewById(R.id.roomEquipmentListView);
         roomNameTextView = (TextView) view.findViewById(R.id.roomNameTextView);
