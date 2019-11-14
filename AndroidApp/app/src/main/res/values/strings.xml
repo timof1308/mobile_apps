@@ -5,12 +5,14 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="login">Login</string>
-    <string name="registration">Registration</string>
+    <string name="registration">Register</string>
+    <string name="email">E-Mail</string>
 
     <string name="meetings">Meetings</string>
     <string name="dashboard">Dashboard</string>
     <string name="profile">Profile</string>
     <string name="rooms">Rooms</string>
+    <string name="companies">Companies</string>
 
     <string name="welcome">Welcome</string>
     <string name="scanQR">Please scan your QR code ...</string>
@@ -18,7 +20,7 @@
     <string name="title_activity_registration">RegistrationActivity</string>
 
     <string name="username">Username</string>
-    <string name="enter_username">Enter your username</string>
+    <string name="enter_username">Please enter your username</string>
     <string name="password">Password</string>
     <string name="enter_password">**********</string>
     <string name="forgot_password">Forgot your password?</string>
@@ -36,8 +38,9 @@
     <string name="dashboard_date_select">Select date</string>
     <string name="dashboard_delete_title">Delete Visitor?</string>
     <string name="dashboard_delete_text">Are you sure to delete this visitor?</string>
-    <string name="dashboard_delete_forbidden">Visitor can not be deleted because the vistor is either checked in or checked out.</string>
-
+    <string name="dashboard_delete_forbidden">Visitor can not be deleted because the visitor is either checked in or checked out.</string>
+  
+    <string name="create_meeting">Create Meeting</string>
     <string name="new_meeting">Create new Meeting</string>
     <string name="meeting_date">Date</string>
     <string name="meeting_date_placeholder">Enter date</string>
@@ -52,5 +55,19 @@
     <string name="dialog_visitor_tel">Enter telephone number</string>
     <string name="dialog_visitor_company">Select company</string>
 
-    <string name="create_meeting">Create Meeting</string>
+    <string name="new_company">Create new Company</string>
+    <string name="create_company">Create Company</string>
+    <string name="delete_company">Delete Company</string>
+    <string name="list_companies">Select Company</string>
+    <string name="company_delete_title">Delete Company?</string>
+    <string name="company_delete_text">Are you sure to delete this company?</string>
+
+    <string name="enter_email">Please enter a valid email address</string>
+    <string name="choose_password">Please choose a valid password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="enter_password_again">Please enter your password again</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+  
 </resources>
