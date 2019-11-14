@@ -46,8 +46,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import de.vms.vmsapp.Adapters.RoomEquipmentListAdapter;
-import de.vms.vmsapp.Adapters.VisitorListAdapter;
+import de.vms.vmsapp.Adapters.DashboardVisitorListAdapter;
 import de.vms.vmsapp.Models.Company;
 import de.vms.vmsapp.Models.Meeting;
 import de.vms.vmsapp.Models.Room;
@@ -129,6 +128,9 @@ public class DashboardFragment extends Fragment {
         });
     }
 
+    /**
+     * update label for date input
+     */
     private void updateLabel() {
         String myFormat = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.GERMANY);
@@ -240,7 +242,7 @@ public class DashboardFragment extends Fragment {
             visitors.add(visitor);
         }
 
-        VisitorListAdapter arrayAdapter = new VisitorListAdapter(getActivity(), visitors);
+        DashboardVisitorListAdapter arrayAdapter = new DashboardVisitorListAdapter(getActivity(), visitors, DashboardFragment.this);
         visitorListView.setAdapter(arrayAdapter);
     }
 

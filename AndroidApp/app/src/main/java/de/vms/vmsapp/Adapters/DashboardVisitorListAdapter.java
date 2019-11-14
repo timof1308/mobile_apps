@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,20 +23,25 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import de.vms.vmsapp.DashboardFragment;
+import de.vms.vmsapp.EditVisitorFragment;
 import de.vms.vmsapp.Models.Visitor;
 import de.vms.vmsapp.R;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class VisitorListAdapter extends ArrayAdapter<Visitor> {
+public class DashboardVisitorListAdapter extends ArrayAdapter<Visitor> {
     private ArrayList<Visitor> visitors;
+    private Button editButton;
     private Button actionButton;
     private Button deleteButton;
+    private DashboardFragment dashboard_fragment;
 
-    public VisitorListAdapter(Context context, ArrayList<Visitor> visitors) {
+    public DashboardVisitorListAdapter(Context context, ArrayList<Visitor> visitors, DashboardFragment df) {
         super(context, 0, visitors);
         this.visitors = visitors;
+        this.dashboard_fragment = df;
     }
 
     @Override
@@ -50,6 +57,7 @@ public class VisitorListAdapter extends ArrayAdapter<Visitor> {
         TextView nameTextView = (TextView) convertView.findViewById(R.id.nameTextView);
         TextView companyTextView = (TextView) convertView.findViewById(R.id.companyTextView);
         TextView hostTextView = (TextView) convertView.findViewById(R.id.hostTextView);
+        editButton = (Button) convertView.findViewById(R.id.editButton);
         actionButton = (Button) convertView.findViewById(R.id.actionButton);
         deleteButton = (Button) convertView.findViewById(R.id.deleteButton);
 
@@ -59,6 +67,25 @@ public class VisitorListAdapter extends ArrayAdapter<Visitor> {
         hostTextView.setText(visitor.getMeeting().getUser().getName() + " >> " + visitor.getMeeting().getRoom().getName());
 
         styleVisitorButtons(visitor);
+
+        // click event listener for edit button
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("visitor", visitor);
+
+                EditVisitorFragment edit_visitor_fragment = new EditVisitorFragment();
+                edit_visitor_fragment.setArguments(bundle);
+
+                // Create new fragment and transaction
+                FragmentTransaction transaction = dashboard_fragment.getActivity().getSupportFragmentManager().beginTransaction();
+                // Replace whatever is in the fragment_container view with this fragment, and add the transaction to the back stack
+                transaction.replace(R.id.fragment_container, edit_visitor_fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
         // click event listener for action button
         actionButton.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +98,8 @@ public class VisitorListAdapter extends ArrayAdapter<Visitor> {
                     // visitor is checked in -> check out
                     checkOutVisitor(visitor.getId(), position);
                 }
+                // update stats
+                dashboard_fragment.getDashboardData();
             }
         });
 
@@ -89,7 +118,8 @@ public class VisitorListAdapter extends ArrayAdapter<Visitor> {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     // send request to delete visitor
                                     deleteVisitor(visitor.getId(), position);
-                                }})
+                                }
+                            })
                             .setNegativeButton(android.R.string.no, null).show();
                 } else {
                     Toast.makeText(getContext(), getContext().getString(R.string.dashboard_delete_forbidden), Toast.LENGTH_SHORT).show();
@@ -110,14 +140,22 @@ public class VisitorListAdapter extends ArrayAdapter<Visitor> {
         return this.visitors.get(position);
     }
 
+    /**
+     * style buttons based on state
+     *
+     * @param visitor
+     */
     private void styleVisitorButtons(Visitor visitor) {
         // visitor has not checked in yet
         if (!visitor.isChecked_In()) {
-            // action button s> check in
+            // action button -> check in
             actionButton.setBackground(getContext().getDrawable(R.drawable.ic_add));
-        } else {
+        } else if (!visitor.isChecked_Out()) { // visitor has not checked out yet
             // action button -> check out
             actionButton.setBackground(getContext().getDrawable(R.drawable.ic_minus));
+        } else { // visitor has checked out
+            actionButton.setVisibility(View.INVISIBLE);
+            deleteButton.setVisibility(View.INVISIBLE);
         }
 
         // visitor has already checked out
@@ -281,5 +319,8 @@ public class VisitorListAdapter extends ArrayAdapter<Visitor> {
         this.visitors.remove(position);
         Toast.makeText(getContext(), "Visitor has been deleted", Toast.LENGTH_SHORT).show();
         this.notifyDataSetChanged();
+
+        // update stats
+        dashboard_fragment.getDashboardData();
     }
 }
