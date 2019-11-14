@@ -85,12 +85,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mToolbar.setTitle(R.string.companies);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CompaniesFragment()).commit();
                 break;
-            case R.id.nav_share:
-                Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_send:
-                Toast.makeText(this, "Send", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.nav_share:
+//                Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
+//                break;
+//            case R.id.nav_send:
+//                Toast.makeText(this, "Send", Toast.LENGTH_SHORT).show();
+//                break;
         }
 
         drawer.closeDrawer(GravityCompat.START);
