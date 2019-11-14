@@ -118,7 +118,8 @@ public class DashboardVisitorListAdapter extends ArrayAdapter<Visitor> {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     // send request to delete visitor
                                     deleteVisitor(visitor.getId(), position);
-                                }})
+                                }
+                            })
                             .setNegativeButton(android.R.string.no, null).show();
                 } else {
                     Toast.makeText(getContext(), getContext().getString(R.string.dashboard_delete_forbidden), Toast.LENGTH_SHORT).show();
@@ -139,14 +140,22 @@ public class DashboardVisitorListAdapter extends ArrayAdapter<Visitor> {
         return this.visitors.get(position);
     }
 
+    /**
+     * style buttons based on state
+     *
+     * @param visitor
+     */
     private void styleVisitorButtons(Visitor visitor) {
         // visitor has not checked in yet
         if (!visitor.isChecked_In()) {
             // action button -> check in
             actionButton.setBackground(getContext().getDrawable(R.drawable.ic_add));
-        } else {
+        } else if (!visitor.isChecked_Out()) { // visitor has not checked out yet
             // action button -> check out
             actionButton.setBackground(getContext().getDrawable(R.drawable.ic_minus));
+        } else { // visitor has checked out
+            actionButton.setVisibility(View.INVISIBLE);
+            deleteButton.setVisibility(View.INVISIBLE);
         }
 
         // visitor has already checked out
