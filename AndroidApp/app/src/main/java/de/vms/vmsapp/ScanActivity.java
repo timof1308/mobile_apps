@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,10 +20,32 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.zxing.Result;
+
+import org.json.JSONException;
+
+import java.io.IOException;
+
+import de.vms.vmsapp.Adapters.RoomListAdapter;
+import de.vms.vmsapp.Models.Room;
+import de.vms.vmsapp.Models.Visitor;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 import static android.Manifest.permission.CAMERA;
 
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class ScanActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler{
+
+    private static final String TAG = "ScanActivity";
 
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView mScannerView;
@@ -150,9 +173,68 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
                 startActivity(browserIntent);
             }
         });
-        HomeFragment.tv_result.setText(rawResult.getText());
+        HomeFragment.tv_result.setText(rawResult.getText()); //setzt Text in Home
         builder.setMessage(rawResult.getText());
         AlertDialog alert1 = builder.create();
         alert1.show();
+
+        checkIn(getVisitorId(result));
+    }
+
+    public int getVisitorId(String json) {
+        JSONObject jo = null;
+        int visitorId = 0;
+        try {
+            jo = new JSONObject(json);
+            visitorId = jo.getInt("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return visitorId;
+    }
+
+    public void checkIn(int visitorId) {
+        
+        AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                OkHttpClient client = new OkHttpClient();
+                // prepare request
+                // @TODO: get jwt from local storage
+                Request request = new Request.Builder()
+                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjYsImlkIjo2LCJuYW1lIjoiVGVzdCBVc2VyIiwiZW1haWwiOiJ2bXMud3dpMTdzY2FAZ21haWwuY29tIiwicGFzc3dvcmQiOiI5MzdlOGQ1ZmJiNDhiZDQ5NDk1MzZjZDY1YjhkMzVjNDI2YjgwZDJmODMwYzVjMzA4ZTJjZGVjNDIyYWUyMjQ0Iiwicm9sZSI6MSwidG9rZW4iOm51bGwsImlhdCI6MTU2OTU5MjI0Mn0.R6bRJ21QNe-Er5GnakGQAY7YK1KPbN79gX67huhfzO4")
+                        .url("http://35.184.56.207/api/visitors/" + visitorId + "/check_in")
+                        .build();
+
+                // run request
+                try (Response response = client.newCall(request).execute()) {
+                    if (!response.isSuccessful())
+                        throw new IOException("Unexpected code " + response.body().string());
+
+                    // return response as string to "onPostExecute"
+                    return response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                if (s != null) {
+                    // LOG response
+                    Log.d("rooms", s);
+//                    try {
+//                        // pass to function to create List View elements and render view
+//                        //loadIntoListView(s);
+//                        Log.d(TAG, "onPostExecute: checkIn method executed");
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+                }
+            }
+        };
+        asyncTask.execute();
     }
 }
