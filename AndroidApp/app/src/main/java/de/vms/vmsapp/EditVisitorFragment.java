@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,8 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import de.vms.vmsapp.Adapters.CompanySpinnerAdapter;
@@ -40,6 +39,8 @@ public class EditVisitorFragment extends Fragment {
     private EditText nameEditText;
     private EditText emailEditText;
     private EditText telEditText;
+    private TextView hostEditText;
+    private TextView roomEditText;
     private Spinner companySpinner;
     private Company company;
     private ArrayList<Company> companies;
@@ -68,11 +69,16 @@ public class EditVisitorFragment extends Fragment {
         nameEditText = (EditText) view.findViewById(R.id.nameEditText);
         emailEditText = (EditText) view.findViewById(R.id.emailEditText);
         telEditText = (EditText) view.findViewById(R.id.telEditText);
+        hostEditText = (TextView) view.findViewById(R.id.hostTextView);
+        roomEditText = (TextView) view.findViewById(R.id.roomTextView);
         companySpinner = (Spinner) view.findViewById(R.id.companySpinner);
 
+        // fill data
         nameEditText.setText(visitor.getName());
         emailEditText.setText(visitor.getEmail());
         telEditText.setText(visitor.getTel());
+        hostEditText.setText(getActivity().getResources().getString(R.string.host_label) + ": " + visitor.getMeeting().getUser().getName());
+        roomEditText.setText(getActivity().getResources().getString(R.string.room_label) + ": " + visitor.getMeeting().getRoom().getName());
 
         // company spinner on select item event
         companySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -208,6 +214,7 @@ public class EditVisitorFragment extends Fragment {
 
     /**
      * parse companies from string to json
+     *
      * @param json
      * @throws JSONException
      */

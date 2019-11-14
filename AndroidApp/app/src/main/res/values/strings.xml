@@ -63,7 +63,14 @@
     <string name="dialog_visitor_company">Select company</string>
     <!-- EDIT VISITOR -->
     <string name="edit_visitor_heading">Edit visitor information</string>
+    <string name="host_label">Host</string>
+    <string name="room_label">Room</string>
     <string name="update_visitor">Update visitor</string>
+    <string name="edit_visitor_host">Host name</string>
+    <string name="edit_visitor_room">Meeting room</string>
+    <string name="visitor_name_label">Name</string>
+    <string name="visitor_email_label">E-Mail</string>
+    <string name="visitor_tel_label">Phone</string>
 
     <!-- COMPANY -->
     <string name="new_company">Create new Company</string>

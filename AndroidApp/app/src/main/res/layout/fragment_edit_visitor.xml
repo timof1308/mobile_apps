@@ -9,32 +9,64 @@
         android:id="@+id/editVisitorTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12sp"
         android:text="@string/edit_visitor_heading"
+        android:textSize="28sp" />
+
+    <TextView
+        android:id="@+id/hostTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/roomTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12sp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/visitor_name_label"
         android:textSize="18sp" />
 
     <EditText
         android:id="@+id/nameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editVisitorTextView"
         android:ems="10"
         android:hint="@string/dialog_visitor_name"
         android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/emailTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/visitor_email_label"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nameEditText"
         android:ems="10"
         android:hint="@string/dialog_visitor_email"
         android:inputType="textEmailAddress" />
+
+    <TextView
+        android:id="@+id/telTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/visitor_tel_label"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/telEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/emailEditText"
         android:ems="10"
         android:hint="@string/dialog_visitor_tel"
         android:inputType="textPersonName" />
@@ -43,22 +75,21 @@
         android:id="@+id/companyTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/telEditText"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-        android:text="@string/dialog_visitor_company" />
+        android:text="@string/dialog_visitor_company"
+        android:textSize="18sp" />
 
     <Spinner
         android:id="@+id/companySpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/companyTextView" />
+        android:layout_height="wrap_content" />
 
     <Button
-        android:layout_marginTop="24dp"
         android:id="@+id/updateButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="@string/update_visitor"
         android:textSize="18sp" />
 
