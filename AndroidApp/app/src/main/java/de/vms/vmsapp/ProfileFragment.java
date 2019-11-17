@@ -105,7 +105,7 @@ public class ProfileFragment extends Fragment {
                 super.onPostExecute(s);
                 if (s != null) {
                     // LOG response
-                    Log.d("rooms", s);
+                    Log.d("profile", s);
                     try {
                         //
                         displayProfileData(processProfileData(s));
