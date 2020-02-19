@@ -1,8 +1,8 @@
 <p align="center"><img src="http://www.dhbw-mannheim.de/fileadmin/templates/default/img/DHBW_d_MA_46mm_4c.svg"></p>
 
 # DHBW Mobile Apps Projekt
-Projekt für Vorlesung Mobile Apps (5. & 6. Semester) mit dem Ziel, eine Java App zu entwickeln und Mehtoden der Projektarbeit anzuwenden.
-In diesem Fall wird eine Emfpangs- & Meetingapplikation entwickelt, mit der Mitarbeiter deren Meetings verwalten können.
+Projekt für Vorlesung Mobile Apps (5. & 6. Semester) mit dem Ziel, eine Java App zu entwickeln und Methoden der Projektarbeit anzuwenden.
+In diesem Fall wird eine Emfpangs- & Meetingapplikation entwickelt, mit der Mitarbeiter Meetings verwalten können.
 
 > PHP RESTful API [mobile_apps_api](https://github.com/timof1308/mobile_apps_api)
 
