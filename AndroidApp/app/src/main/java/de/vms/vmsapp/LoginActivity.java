@@ -1,8 +1,10 @@
 package de.vms.vmsapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,9 +44,28 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Boolean loginSucceed = false;
                 String username = text_input_username.getText().toString();
                 String password = text_input_password.getText().toString();
+
                 Log.d(username, password);
+
+                if (username.equals("admin")) {
+                    if (password.equals("admin")) {
+                        Log.d("Login", "Success");
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        loginSucceed = true;
+                    } else {
+                        Log.d("Login", "Password-Fail");
+                    }
+                } else {
+                    Log.d("Login", "Username-Fail");
+                }
+                if (loginSucceed.equals(false)) {
+                    text_input_username.setError("Please enter a valid Username or Password");
+                    text_input_password.setError("Please enter a valid Username or Password");
+                }
             }
         });
     }
