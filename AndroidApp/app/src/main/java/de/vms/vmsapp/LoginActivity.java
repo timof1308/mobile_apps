@@ -1,26 +1,35 @@
 package de.vms.vmsapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 public class LoginActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
+    TextInputEditText text_input_username;
+    TextInputEditText text_input_password;
+    Button loginBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mToolbar = findViewById(R.id.toolbar);
+        text_input_username = findViewById(R.id.text_input_username);
+        text_input_password = findViewById(R.id.text_input_password);
+        loginBtn = findViewById(R.id.login);
         setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -31,6 +40,34 @@ public class LoginActivity extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mToolbar.setTitle(R.string.login);
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Boolean loginSucceed = false;
+                String username = text_input_username.getText().toString();
+                String password = text_input_password.getText().toString();
+
+                Log.d(username, password);
+
+                if (username.equals("admin")) {
+                    if (password.equals("admin")) {
+                        Log.d("Login", "Success");
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        loginSucceed = true;
+                    } else {
+                        Log.d("Login", "Password-Fail");
+                    }
+                } else {
+                    Log.d("Login", "Username-Fail");
+                }
+                if (loginSucceed.equals(false)) {
+                    text_input_username.setError("Please enter a valid Username or Password");
+                    text_input_password.setError("Please enter a valid Username or Password");
+                }
+            }
+        });
     }
 
     @Override
