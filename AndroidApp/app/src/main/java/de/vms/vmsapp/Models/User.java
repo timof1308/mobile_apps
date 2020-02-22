@@ -6,13 +6,13 @@ public class User {
     private String email;
     private String password;
     private int role;
-    private int token;
+    private String token;
 
     public User() {
         //
     }
 
-    public User(int id, String name, String email, String password, int role, int token) {
+    public User(int id, String name, String email, String password, int role, String token) {
         this.setId(id);
         this.setName(name);
         this.setEmail(email);
@@ -61,11 +61,11 @@ public class User {
         this.role = role;
     }
 
-    public int getToken() {
+    public String getToken() {
         return token;
     }
 
-    public void setToken(int token) {
+    public void setToken(String token) {
         this.token = token;
     }
 }

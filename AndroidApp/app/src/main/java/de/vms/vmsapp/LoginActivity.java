@@ -1,6 +1,8 @@
 package de.vms.vmsapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -14,8 +16,32 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
+
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import de.vms.vmsapp.Adapters.RoomListAdapter;
+import de.vms.vmsapp.Models.Room;
+import de.vms.vmsapp.Models.User;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okio.BufferedSink;
 
 public class LoginActivity extends AppCompatActivity {
+
+    public static final MediaType JSON
+            = MediaType.parse("application/json; charset=utf-8");
 
     Toolbar mToolbar;
     TextInputEditText text_input_username;
@@ -33,6 +59,9 @@ public class LoginActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // load users
+         //getUsers();
     }
 
 
@@ -45,10 +74,22 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Boolean loginSucceed = false;
-                String username = text_input_username.getText().toString();
+                String email = text_input_username.getText().toString();
                 String password = text_input_password.getText().toString();
 
-                Log.d(username, password);
+                Log.d(email, password);
+                //check fields not empty
+
+                // request users from DB
+
+
+                User userObject = new User();
+                userObject.setEmail(email);
+                userObject.setPassword(password);
+
+               checkUser(userObject);
+
+                /*
 
                 if (username.equals("admin")) {
                     if (password.equals("admin")) {
@@ -66,9 +107,13 @@ public class LoginActivity extends AppCompatActivity {
                     text_input_username.setError("Please enter a valid Username or Password");
                     text_input_password.setError("Please enter a valid Username or Password");
                 }
+
+ */
             }
         });
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { // Noch nicht perfekt, aber besser als vorher
@@ -80,4 +125,117 @@ public class LoginActivity extends AppCompatActivity {
         }
         return false;
     }
+
+
+
+
+    private void checkUser(User enteredUser) {
+        AsyncTask<User, Void, User> asyncTask = new AsyncTask<User, Void, User>() {
+            @Override
+            protected User doInBackground(User... users) {
+                OkHttpClient client = new OkHttpClient();
+                // prepare request
+                // @TODO: get jwt from local storage
+                if (users.length != 1){
+                    return null;
+                }
+                User enteredUser = users[0];
+
+                String json2 = "{\n" +
+                        "\t\"email\" : \"marie@test.de\",\n" +
+                        "\t\"password\" : \"Marie123\"\n" +
+                        "}";
+
+                String json = "{\n" +
+                        "\t\"email\" : \""+ enteredUser.getEmail() +"\",\n" +
+                        "\t\"password\" : \""+ enteredUser.getPassword() + "\"\n" +
+                        "}";
+
+                RequestBody body = RequestBody.create(json, JSON); // new
+
+                /*
+                RequestBody body = new FormBody.Builder()
+                        .add("email", enteredUser.getEmail())
+                        .add("password", enteredUser.getPassword())
+                        .build();*/
+
+
+                        /*
+                        new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("email", enteredUser.getEmail())
+                        .addFormDataPart( "password", enteredUser.getPassword())
+                        .build();*/
+
+
+
+                Request request = new Request.Builder()
+                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
+                        .addHeader("Content-Type", "application/json" )
+                        .url("http://35.223.244.220/auth/login")
+                        .post(body)
+                        .build();
+
+                // run request
+                try (Response response = client.newCall(request).execute()) {
+                    if (response.isSuccessful()){
+                        // authorized
+                        String responseBody = response.body().string();
+                        Log.d("responseBody", "responseBody");
+
+                        JSONObject jsonObject= new JSONObject(responseBody);
+                        String token = jsonObject.getString("token");
+
+                        /*
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            // get json object from array
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            token = obj.getString("token");
+                        }*/
+
+                        Log.d("token", "token");
+
+                        enteredUser.setToken(token);
+
+                        return enteredUser;
+
+                    }
+                    else{
+                        // not authorized
+                        return null;
+                    }
+
+                    // return response as string to "onPostExecute"
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(User s) {
+                super.onPostExecute(s);
+                if (s == null) {
+                    // unautorisiert
+                    Log.d("Login", "Failed");
+                    text_input_username.setError("Please enter a valid Username or Password");
+                    text_input_password.setError("Please enter a valid Username or Password");
+                }else{
+                    // autorisiert
+                    Log.d("Login", "Success");
+
+                    // Speichern in Lokalem Speicher für weitere Service Aufrufe
+                    // s.getToken()
+
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                }
+            }
+        };
+
+        asyncTask.execute(enteredUser);
+    }
+
 }
