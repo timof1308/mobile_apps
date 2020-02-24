@@ -160,7 +160,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 userObject.setPassword(password);
                 userObject.setName(username);
                 userObject.setRole(role);
-                user
+                userObject.setId(3); //nur zum Testen!!
+
 
                 register(userObject);
             }
@@ -188,25 +189,18 @@ public class RegistrationActivity extends AppCompatActivity {
                         "\t\"email\" : \""+ "nico@test.de" +"\",\n" +
                         "\t\"password\" : \""+ "NicoTest123!" + "\"\n" +
                         "\t\"role\" : \""+ 1 +"\",\n" +
+
                         "}";
 
                 String json = "{\n" +
                         "\t\"name\" : \""+ enteredUser.getName() +"\",\n" +
                         "\t\"email\" : \""+ enteredUser.getEmail() +"\",\n" +
-                        "\t\"password\" : \""+ enteredUser.getPassword() + "\"\n" +
-                        "\t\"role\" : \""+ enteredUser.getRole() +"\",\n" +
+                        "\t\"password\" : \""+ enteredUser.getPassword() + "\",\n" +
+                        "\t\"role\" : \""+ enteredUser.getRole() +"\"\n" +
                         "}";
 
                 RequestBody body = RequestBody.create(json, JSON); // new
 
-                /***********
-                RequestBody formBody = new FormBody.Builder()
-                        .add("email", email)
-                        .add("password", password)
-                        .add("username", username)
-                        .build();
-
-                 **********/
 
                 // prepare request
                 // @TODO: get jwt from local storage
@@ -263,8 +257,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 if (s == null) {
                     // unautorisiert
                     Log.d("Login", "Failed");
-                    textInputUsername.setError("Please enter a valid Username or Password");
-                    textInputPassword.setError("Please enter a valid Username or Password");
+                    //textInputUsername.setError("Please enter a valid Username or Password");
+                    //textInputPassword.setError("Please enter a valid Username or Password");
 
 
                 }else{
