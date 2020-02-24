@@ -143,36 +143,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 User enteredUser = users[0];
 
-                String json2 = "{\n" +
-                        "\t\"email\" : \"marie@test.de\",\n" +
-                        "\t\"password\" : \"Marie123\"\n" +
-                        "}";
+                // test name: marie@test.de
+                // test password: Marie123
 
-                String json = "{\n" +
-                        "\t\"email\" : \""+ enteredUser.getEmail() +"\",\n" +
-                        "\t\"password\" : \""+ enteredUser.getPassword() + "\"\n" +
-                        "}";
+                String json = "{\"email\":\""+ enteredUser.getEmail() + "\",\"password\":\""+ enteredUser.getPassword() + "\"}";
 
                 RequestBody body = RequestBody.create(json, JSON); // new
 
-                /*
-                RequestBody body = new FormBody.Builder()
-                        .add("email", enteredUser.getEmail())
-                        .add("password", enteredUser.getPassword())
-                        .build();*/
-
-
-                        /*
-                        new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("email", enteredUser.getEmail())
-                        .addFormDataPart( "password", enteredUser.getPassword())
-                        .build();*/
-
-
-
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
                         .addHeader("Content-Type", "application/json" )
                         .url("http://35.223.244.220/auth/login")
                         .post(body)
@@ -188,19 +166,11 @@ public class LoginActivity extends AppCompatActivity {
                         JSONObject jsonObject= new JSONObject(responseBody);
                         String token = jsonObject.getString("token");
 
-                        /*
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            // get json object from array
-                            JSONObject obj = jsonArray.getJSONObject(i);
-                            token = obj.getString("token");
-                        }*/
-
-                        Log.d("token", "token");
+                        Log.d("token", token);
 
                         enteredUser.setToken(token);
 
                         return enteredUser;
-
                     }
                     else{
                         // not authorized
@@ -222,8 +192,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (s == null) {
                     // unautorisiert
                     Log.d("Login", "Failed");
-                    text_input_username.setError("Please enter a valid Username or Password");
-                    text_input_password.setError("Please enter a valid Username or Password");
+                    text_input_username.setError("Please check your Username");
+                    text_input_password.setError("Please please check your Password");
                 }else{
                     // autorisiert
                     Log.d("Login", "Success");
