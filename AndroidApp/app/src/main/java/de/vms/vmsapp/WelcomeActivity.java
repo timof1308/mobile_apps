@@ -3,9 +3,12 @@ package de.vms.vmsapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -16,8 +19,11 @@ public class WelcomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+
 
         login = (Button) findViewById(R.id.openLogin);
         login.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +50,15 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
         });
+
+        SharedPreferences sp1=getSharedPreferences("Login", MODE_PRIVATE);
+        String token = sp1.getString("token", null);
+
+        if (token != null){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     private void openLoginActivity() {

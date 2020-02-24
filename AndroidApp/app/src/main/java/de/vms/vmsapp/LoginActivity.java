@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -225,6 +227,12 @@ public class LoginActivity extends AppCompatActivity {
                 }else{
                     // autorisiert
                     Log.d("Login", "Success");
+
+                    SharedPreferences sp=getSharedPreferences("Login", MODE_PRIVATE);
+                    SharedPreferences.Editor Ed=sp.edit();
+                    Ed.putString("email",s.getEmail());
+                    Ed.putString("token",s.getToken());
+                    Ed.commit();
 
                     // Speichern in Lokalem Speicher für weitere Service Aufrufe
                     // s.getToken()

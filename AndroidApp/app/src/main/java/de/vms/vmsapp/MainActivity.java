@@ -9,8 +9,11 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -24,8 +27,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        setContentView(R.layout.activity_main);
 
         //source: https://www.youtube.com/watch?v=bjYstsO1PgI
         mToolbar = findViewById(R.id.toolbar);
@@ -34,6 +37,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Change email in navHeader
+
+        SharedPreferences sp1=this.getSharedPreferences("Login", MODE_PRIVATE);
+
+        String email =sp1.getString("email", null);
+        //String token = sp1.getString("token", null);
+
+        TextView navEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.NavMailId);
+        navEmail.setText(email);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close); //connect the drawer and the toolbar
         drawer.addDrawerListener(toggle);
@@ -45,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit(); //Activity starts with this fragment
             navigationView.setCheckedItem(R.id.nav_home);
         }
-
     }
 
     @Override
@@ -55,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mToolbar.setTitle(savedInstanceState.getString(TOOLBAR_TITLE_KEY));
         }
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -85,6 +99,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mToolbar.setTitle(R.string.companies);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CompaniesFragment()).commit();
                 break;
+            case R.id.nav_logout:
+                mToolbar.setTitle(R.string.logout);
+                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+
+                SharedPreferences sp=getSharedPreferences("Login", MODE_PRIVATE);
+                SharedPreferences.Editor Ed=sp.edit();
+                Ed.clear();
+                Ed.commit();
+
+                startActivity(intent);
+            break;
 //            case R.id.nav_share:
 //                Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
 //                break;

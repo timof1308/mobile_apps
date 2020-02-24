@@ -26,6 +26,9 @@
             <item android:id="@+id/nav_companies"
                 android:icon="@drawable/ic_rooms"
                 android:title="Companies"/>
+            <item android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_minus"
+                android:title="Logout"/>
             <!-- <item android:id="@+id/nav_share"
                 android:icon="@drawable/ic_share"
                 android:title="Share"/>
