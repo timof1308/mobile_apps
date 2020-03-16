@@ -60,12 +60,12 @@ public class BundleVisitorListAdapter extends ArrayAdapter<Visitor> {
         return convertView;
     }
 
-    public void addVisitor (Visitor visitor) {
+    public void addVisitor(Visitor visitor) {
         this.visitors.add(visitor);
         notifyDataSetChanged();
     }
 
-    public ArrayList<Visitor> getVisitors () {
+    public ArrayList<Visitor> getVisitors() {
         return this.visitors;
     }
 

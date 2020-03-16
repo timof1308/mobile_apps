@@ -1,5 +1,11 @@
 package de.vms.vmsapp;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -7,14 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -40,9 +38,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Change email in navHeader
 
-        SharedPreferences sp1=this.getSharedPreferences("Login", MODE_PRIVATE);
+        SharedPreferences sp1 = this.getSharedPreferences("Login", MODE_PRIVATE);
 
-        String email =sp1.getString("email", null);
+        String email = sp1.getString("email", null);
         //String token = sp1.getString("token", null);
 
         TextView navEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.NavMailId);
@@ -52,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState(); //for hamburger menu to rotate
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             //Intent homeFragment = new Intent(MainActivity.this, HomeFragment.class); //if HomeFragment is AppCompat
             //startActivity(homeFragment);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit(); //Activity starts with this fragment
@@ -67,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mToolbar.setTitle(savedInstanceState.getString(TOOLBAR_TITLE_KEY));
         }
     }
-
 
 
     @Override
@@ -103,13 +100,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mToolbar.setTitle(R.string.logout);
                 Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
 
-                SharedPreferences sp=getSharedPreferences("Login", MODE_PRIVATE);
-                SharedPreferences.Editor Ed=sp.edit();
-                Ed.clear();
-                Ed.commit();
+                // clear login token
+                SharedPreferences shared_pref = getSharedPreferences("app", MODE_PRIVATE);
+                SharedPreferences.Editor shared_pref_edit = shared_pref.edit();
+                shared_pref_edit.putString("token", null);
+                shared_pref_edit.apply();
 
                 startActivity(intent);
-            break;
+                break;
 //            case R.id.nav_share:
 //                Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
 //                break;

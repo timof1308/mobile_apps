@@ -3,7 +3,9 @@ package de.vms.vmsapp;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,8 +39,8 @@ import de.vms.vmsapp.Adapters.BundleVisitorListAdapter;
 import de.vms.vmsapp.Adapters.RoomSpinnerAdapter;
 import de.vms.vmsapp.Models.Company;
 import de.vms.vmsapp.Models.Room;
+import de.vms.vmsapp.Models.User;
 import de.vms.vmsapp.Models.Visitor;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -46,6 +48,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MeetingBundleFragment extends Fragment {
+    // UI elements
     private View view;
     private EditText dateEditText;
     private EditText durationEditText;
@@ -54,7 +57,7 @@ public class MeetingBundleFragment extends Fragment {
     private Button createMeetingButton;
     private ListView visitorsListView;
     private final Calendar myCalendar = Calendar.getInstance();
-
+    // form data
     private String date;
     private int duration;
     private Room room;
@@ -64,6 +67,9 @@ public class MeetingBundleFragment extends Fragment {
     private static final int TARGET_FRAGMENT_REQUEST_CODE = 1;
     private static final String EXTRA_VISITOR_MESSAGE = "visitor";
     private BundleVisitorListAdapter arrayAdapter;
+    // api params
+    private String URL;
+    private String TOKEN;
 
     @Nullable
     @Override
@@ -76,6 +82,11 @@ public class MeetingBundleFragment extends Fragment {
         addVisitorButton = (Button) view.findViewById(R.id.addVisitorButton);
         createMeetingButton = (Button) view.findViewById(R.id.createMeetingButton);
         visitorsListView = (ListView) view.findViewById(R.id.visitorsListView);
+
+        // get api url and token from shared pref
+        SharedPreferences shared_pref = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
+        URL = shared_pref.getString("URL", null);
+        TOKEN = shared_pref.getString("token", null);
 
         return view;
     }
@@ -145,8 +156,14 @@ public class MeetingBundleFragment extends Fragment {
                     duration = 0;
                 }
                 int room_id = room.getId();
-                // @TODO: GET USER ID FROM JWT
-                int user_id = 1;
+                int user_id = 0;
+                try {
+                    User user = JwtController.decodeJwt(TOKEN);
+                    user_id = user.getId();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 if (visitors.size() == 0 || date == null || duration < 1) {
                     Toast.makeText(getContext(), "Please check the fields above and add at least one visitor for your meeting", Toast.LENGTH_SHORT).show();
                     return;
@@ -205,8 +222,8 @@ public class MeetingBundleFragment extends Fragment {
                 // prepare request
                 // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/rooms")
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "rooms")
                         .build();
 
                 // run request
@@ -271,8 +288,8 @@ public class MeetingBundleFragment extends Fragment {
                 // prepare request
                 // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/companies")
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "companies")
                         .build();
 
                 // run request

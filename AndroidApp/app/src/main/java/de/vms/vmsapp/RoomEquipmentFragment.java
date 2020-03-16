@@ -1,7 +1,9 @@
 package de.vms.vmsapp;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,8 +44,10 @@ public class RoomEquipmentFragment extends Fragment {
     private int roomId;
     private String roomName;
     private Button deleteRoomButton;
-
     private Button btn_delete_room;
+    // api params
+    private String URL;
+    private String TOKEN;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,6 +85,11 @@ public class RoomEquipmentFragment extends Fragment {
             }
         });
 
+        // get api url and token from shared pref
+        SharedPreferences shared_pref = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
+        URL = shared_pref.getString("URL", null);
+        TOKEN = shared_pref.getString("token", null);
+
         return view;
     }
 
@@ -100,7 +109,8 @@ public class RoomEquipmentFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 // send request to delete visitor
                                 deleteRoom();
-                            }})
+                            }
+                        })
                         .setNegativeButton(android.R.string.no, null).show();
             }
         });
@@ -117,8 +127,8 @@ public class RoomEquipmentFragment extends Fragment {
                 // prepare request
                 // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/equipment")
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "equipment")
                         .build();
 
                 // run request
@@ -162,8 +172,8 @@ public class RoomEquipmentFragment extends Fragment {
                 // prepare request
                 // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/rooms/" + roomId + "/equipment")
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "rooms/" + roomId + "/equipment")
                         .build();
 
                 // run request
@@ -266,8 +276,8 @@ public class RoomEquipmentFragment extends Fragment {
                 // prepare request
                 // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/rooms/" + roomId)
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "rooms/" + roomId)
                         .delete()
                         .build();
 

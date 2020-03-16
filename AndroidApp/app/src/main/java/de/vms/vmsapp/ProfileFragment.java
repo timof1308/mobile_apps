@@ -1,5 +1,7 @@
 package de.vms.vmsapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,24 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.anychart.AnyChart;
-import com.anychart.AnyChartView;
-import com.anychart.chart.common.dataentry.DataEntry;
-import com.anychart.chart.common.dataentry.ValueDataEntry;
-import com.anychart.charts.Cartesian;
-import com.anychart.charts.Pie;
-import com.anychart.core.cartesian.series.Column;
-import com.anychart.enums.Anchor;
-import com.anychart.enums.HoverMode;
-import com.anychart.enums.Position;
-import com.anychart.enums.TooltipPositionMode;
+import org.json.JSONException;
 
-import java.util.ArrayList;
-import java.util.List;
+import de.vms.vmsapp.Models.User;
 
 public class ProfileFragment extends Fragment {
     // ui elements
     private View view;
+    // api params
+    private String URL;
+    private String TOKEN;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +33,11 @@ public class ProfileFragment extends Fragment {
         // define view
         view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        // get api url and token from shared pref
+        SharedPreferences shared_pref = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
+        URL = shared_pref.getString("URL", null);
+        TOKEN = shared_pref.getString("token", null);
+
         return view;
     }
 
@@ -46,6 +45,15 @@ public class ProfileFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // place actions here ...
+        User user;
+
+        try {
+            user = JwtController.decodeJwt(TOKEN);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // ELEMENT.setText(user.getName());
+        // ELEMENT.setText(user.getEmail());
     }
 }

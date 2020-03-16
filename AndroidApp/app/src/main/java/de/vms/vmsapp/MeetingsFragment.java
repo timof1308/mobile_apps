@@ -1,5 +1,7 @@
 package de.vms.vmsapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +15,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 public class MeetingsFragment extends Fragment {
+    // UI elements
     private View view;
     private ListView listView;
     private Button newMeetingButton;
+    // api params
+    private String URL;
+    private String TOKEN;
 
     @Nullable
     @Override
@@ -24,7 +30,10 @@ public class MeetingsFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.meetingsListView);
         newMeetingButton = (Button) view.findViewById(R.id.newMeetingButton);
 
-        getMeetings();
+        // get api url and token from shared pref
+        SharedPreferences shared_pref = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
+        URL = shared_pref.getString("URL", null);
+        TOKEN = shared_pref.getString("token", null);
 
         return view;
     }
@@ -32,6 +41,8 @@ public class MeetingsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        getMeetings();
 
         newMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override

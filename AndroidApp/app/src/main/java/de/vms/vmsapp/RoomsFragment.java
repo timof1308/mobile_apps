@@ -1,6 +1,7 @@
 package de.vms.vmsapp;
 
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,9 @@ public class RoomsFragment extends Fragment {
     private View view;
     private ListView listView;
     private Button newRoomButton;
+    // api params
+    private String URL;
+    private String TOKEN;
 
     @Nullable
     @Override
@@ -44,6 +48,11 @@ public class RoomsFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.roomsListView);
         // create new room button
         newRoomButton = (Button) view.findViewById(R.id.newRoomButton);
+
+        // get api url and token from shared pref
+        SharedPreferences shared_pref = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
+        URL = shared_pref.getString("URL", null);
+        TOKEN = shared_pref.getString("token", null);
 
         // list view on click listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -101,8 +110,8 @@ public class RoomsFragment extends Fragment {
                 // prepare request
                 // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/rooms")
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "rooms")
                         .build();
 
                 // run request

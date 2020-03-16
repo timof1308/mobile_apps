@@ -93,6 +93,7 @@ public class CompanyListAdapter extends ArrayAdapter {
 
     /**
      * delete company with id and remove company from array list by position
+     *
      * @param companyId
      * @param position
      */
@@ -149,6 +150,7 @@ public class CompanyListAdapter extends ArrayAdapter {
 
     /**
      * add company to update list view
+     *
      * @param company
      */
     public void addCompany(Company company) {
