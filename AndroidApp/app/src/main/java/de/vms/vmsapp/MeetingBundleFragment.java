@@ -39,8 +39,8 @@ import de.vms.vmsapp.Adapters.BundleVisitorListAdapter;
 import de.vms.vmsapp.Adapters.RoomSpinnerAdapter;
 import de.vms.vmsapp.Models.Company;
 import de.vms.vmsapp.Models.Room;
+import de.vms.vmsapp.Models.User;
 import de.vms.vmsapp.Models.Visitor;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -156,8 +156,14 @@ public class MeetingBundleFragment extends Fragment {
                     duration = 0;
                 }
                 int room_id = room.getId();
-                // @TODO: GET USER ID FROM JWT
-                int user_id = 1;
+                int user_id = 0;
+                try {
+                    User user = JwtController.decodeJwt(TOKEN);
+                    user_id = user.getId();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 if (visitors.size() == 0 || date == null || duration < 1) {
                     Toast.makeText(getContext(), "Please check the fields above and add at least one visitor for your meeting", Toast.LENGTH_SHORT).show();
                     return;

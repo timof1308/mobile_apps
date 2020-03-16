@@ -139,8 +139,8 @@ public class Visitor implements Parcelable {
 
     /**
      * Check if visitor is checked in
-     *  true if checked in
-     *  false if not
+     * true if checked in
+     * false if not
      *
      * @return boolean
      */
@@ -150,8 +150,8 @@ public class Visitor implements Parcelable {
 
     /**
      * Check if user is checked out
-     *  true if checked out
-     *  false if not
+     * true if checked out
+     * false if not
      *
      * @return boolean
      */

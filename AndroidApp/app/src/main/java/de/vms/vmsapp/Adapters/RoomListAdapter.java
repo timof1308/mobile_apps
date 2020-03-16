@@ -21,8 +21,9 @@ public class RoomListAdapter extends ArrayAdapter<Room> {
 
     /**
      * Constructer to override constructer of parent class
+     *
      * @param context Context
-     * @param rooms ArrayList for rooms
+     * @param rooms   ArrayList for rooms
      */
     public RoomListAdapter(Context context, ArrayList<Room> rooms) {
         super(context, 0, rooms);

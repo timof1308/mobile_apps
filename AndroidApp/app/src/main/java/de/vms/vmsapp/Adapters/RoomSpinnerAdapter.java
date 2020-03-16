@@ -46,9 +46,9 @@ public class RoomSpinnerAdapter extends ArrayAdapter<Room> {
     /**
      * Specify to display correct text in dropdown list
      *
-     * @param position int
+     * @param position    int
      * @param convertView View
-     * @param parent ViewGroup
+     * @param parent      ViewGroup
      * @return view
      */
     @Override
