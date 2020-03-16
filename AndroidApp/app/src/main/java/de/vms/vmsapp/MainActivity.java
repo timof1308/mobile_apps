@@ -100,10 +100,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mToolbar.setTitle(R.string.logout);
                 Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
 
-                SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
-                SharedPreferences.Editor Ed = sp.edit();
-                Ed.clear();
-                Ed.commit();
+                // clear login token
+                SharedPreferences shared_pref = getSharedPreferences("app", MODE_PRIVATE);
+                SharedPreferences.Editor shared_pref_edit = shared_pref.edit();
+                shared_pref_edit.putString("token", null);
+                shared_pref_edit.apply();
 
                 startActivity(intent);
                 break;
