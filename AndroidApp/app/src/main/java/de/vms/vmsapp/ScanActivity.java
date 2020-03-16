@@ -4,8 +4,10 @@ package de.vms.vmsapp;
 // https://demonuts.com/scan-barcode-qrcode/
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -50,11 +52,20 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView mScannerView;
 
+    private String URL;
+    private String TOKEN;
+
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
         mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
         setContentView(mScannerView);                // Set the scanner view as the content view
+
+        // get api url and token from shared pref
+        SharedPreferences shared_pref = getSharedPreferences("app", Context.MODE_PRIVATE);
+        URL = shared_pref.getString("URL", null);
+        TOKEN = shared_pref.getString("token", null);
+
 
         int currentapiVersion = Build.VERSION.SDK_INT;
         if(currentapiVersion >= Build.VERSION_CODES.M) {
@@ -202,8 +213,8 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
                 // prepare request
                 // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/visitors/" + visitorId + "/check_in")
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "visitors/" + visitorId + "/check_in")
                         .build();
 
                 // run request

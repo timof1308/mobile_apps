@@ -2,15 +2,16 @@ package de.vms.vmsapp;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +31,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class CreateCompanyDialog extends DialogFragment {
-
+    // UI elements
     private EditText edit_companyname;
 
     public static CreateCompanyDialog getInstanceFor() {
@@ -63,7 +64,7 @@ public class CreateCompanyDialog extends DialogFragment {
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        
+
                     }
                 })
                 .setPositiveButton("create", new DialogInterface.OnClickListener() {
@@ -89,11 +90,15 @@ public class CreateCompanyDialog extends DialogFragment {
                         .add("name", s)
                         .build();
 
+                // get api url and token from shared pref
+                SharedPreferences shared_pref = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
+                String url = shared_pref.getString("URL", null);
+                String token = shared_pref.getString("token", null);
+
                 // prepare request
-                // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/companies")
+                        .addHeader("Authorization", token)
+                        .url(url + "companies")
                         .post(formBody)
                         .build();
 
@@ -131,7 +136,8 @@ public class CreateCompanyDialog extends DialogFragment {
 
     /**
      * parse create company response from json to object
-     * @param json
+     *
+     * @param json String
      * @throws JSONException
      */
     private void parseResponse(String json) throws JSONException {

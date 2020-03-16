@@ -1,5 +1,7 @@
 package de.vms.vmsapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +36,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class EditVisitorFragment extends Fragment {
+    // UI elements
     private View view;
     private Button updateButton;
     private EditText nameEditText;
@@ -45,6 +48,9 @@ public class EditVisitorFragment extends Fragment {
     private Company company;
     private ArrayList<Company> companies;
     private Visitor visitor;
+    // api params
+    private String URL;
+    private String TOKEN;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +65,11 @@ public class EditVisitorFragment extends Fragment {
         }
 
         getCompanies();
+
+        // get api url and token from shared pref
+        SharedPreferences shared_pref = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
+        URL = shared_pref.getString("URL", null);
+        TOKEN = shared_pref.getString("token", null);
     }
 
     @Nullable
@@ -132,10 +143,9 @@ public class EditVisitorFragment extends Fragment {
                         .build();
 
                 // prepare request
-                // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/visitors/" + visitor.getId())
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "visitors/" + visitor.getId())
                         .put(formBody)
                         .build();
 
@@ -176,8 +186,8 @@ public class EditVisitorFragment extends Fragment {
                 // prepare request
                 // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/companies")
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "companies")
                         .build();
 
                 // run request

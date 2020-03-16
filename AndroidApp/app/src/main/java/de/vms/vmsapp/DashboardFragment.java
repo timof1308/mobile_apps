@@ -1,6 +1,8 @@
 package de.vms.vmsapp;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -66,6 +68,9 @@ public class DashboardFragment extends Fragment {
     private TextView companiesValueTextView;
     private EditText dateEditText;
     private final Calendar myCalendar = Calendar.getInstance();
+    // api params
+    private String URL;
+    private String TOKEN;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +90,11 @@ public class DashboardFragment extends Fragment {
         totalValueTextView = (TextView) view.findViewById(R.id.totalValueTextView);
         companiesValueTextView = (TextView) view.findViewById(R.id.companiesValueTextView);
         dateEditText = (EditText) view.findViewById(R.id.dateEditText);
+
+        // get api url and token from shared pref
+        SharedPreferences shared_pref = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
+        URL = shared_pref.getString("URL", null);
+        TOKEN = shared_pref.getString("token", null);
 
         return view;
     }
@@ -147,11 +157,11 @@ public class DashboardFragment extends Fragment {
             @Override
             protected String doInBackground(Void... params) {
                 OkHttpClient client = new OkHttpClient();
+
                 // prepare request
-                // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/dashboard/visitors/" + date)
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "dashboard/visitors/" + date)
                         .build();
 
                 // run request
@@ -254,8 +264,8 @@ public class DashboardFragment extends Fragment {
                 // prepare request
                 // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/dashboard/data")
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "dashboard/data")
                         .build();
 
                 // run request
@@ -307,8 +317,8 @@ public class DashboardFragment extends Fragment {
                 // prepare request
                 // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/dashboard/week/" + date)
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "dashboard/week/" + date)
                         .build();
 
                 // run request
@@ -352,8 +362,8 @@ public class DashboardFragment extends Fragment {
                 // prepare request
                 // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/dashboard/companies")
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "dashboard/companies")
                         .build();
 
                 // run request

@@ -27,6 +27,9 @@ import java.util.List;
 public class ProfileFragment extends Fragment {
     // ui elements
     private View view;
+    // api params
+    private String URL;
+    private String TOKEN;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

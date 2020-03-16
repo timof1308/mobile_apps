@@ -1,6 +1,7 @@
 package de.vms.vmsapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,7 +51,6 @@ public class RegistrationActivity extends AppCompatActivity {
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +60,6 @@ public class RegistrationActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         textInputEmail = findViewById(R.id.text_input_email);
         textInputUsername = findViewById(R.id.text_input_username);
@@ -160,8 +159,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 userObject.setPassword(password);
                 userObject.setName(username);
                 userObject.setRole(role);
-                userObject.setId(3); //nur zum Testen!!
-
 
                 register(userObject);
             }
@@ -173,53 +170,48 @@ public class RegistrationActivity extends AppCompatActivity {
      * Register
      */
 
-    private void register(User enteredUser){
+    private void register(User enteredUser) {
         AsyncTask<User, Void, User> asyncTask = new AsyncTask<User, Void, User>() {
             @Override
             protected User doInBackground(User... users) {
                 OkHttpClient client = new OkHttpClient();
 
-                if (users.length != 1){
+                if (users.length != 1) {
                     return null;
                 }
                 User enteredUser = users[0];
 
-                String json2 = "{\n" +
-                        "\t\"name\" : \""+ "NicoTest" +"\",\n" +
-                        "\t\"email\" : \""+ "nico@test.de" +"\",\n" +
-                        "\t\"password\" : \""+ "NicoTest123!" + "\"\n" +
-                        "\t\"role\" : \""+ 1 +"\",\n" +
-
-                        "}";
-
+                // prepare json as String
                 String json = "{\n" +
-                        "\t\"name\" : \""+ enteredUser.getName() +"\",\n" +
-                        "\t\"email\" : \""+ enteredUser.getEmail() +"\",\n" +
-                        "\t\"password\" : \""+ enteredUser.getPassword() + "\",\n" +
-                        "\t\"role\" : \""+ enteredUser.getRole() +"\"\n" +
+                        "\t\"name\" : \"" + enteredUser.getName() + "\",\n" +
+                        "\t\"email\" : \"" + enteredUser.getEmail() + "\",\n" +
+                        "\t\"password\" : \"" + enteredUser.getPassword() + "\",\n" +
+                        "\t\"role\" : \"" + enteredUser.getRole() + "\"\n" +
                         "}";
 
+                // parse string to body
                 RequestBody body = RequestBody.create(json, JSON); // new
 
+                // get api url from shared pref
+                SharedPreferences shared_pref = getSharedPreferences("app", MODE_PRIVATE);
+                String url = shared_pref.getString("URL_AUTH", null);
 
                 // prepare request
-                // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .addHeader("Content-Type", "application/json" )
-                        .url("http://35.223.244.220/auth/register")
+                        .addHeader("Content-Type", "application/json")
+                        .url(url = "auth/register")
                         .post(body)
                         .build();
 
 
                 // run request
                 try (Response response = client.newCall(request).execute()) {
-                    if (response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         // authorized
                         String responseBody = response.body().string();
                         Log.d("responseBody", "responseBody");
 
-                        JSONObject jsonObject= new JSONObject(responseBody);
+                        JSONObject jsonObject = new JSONObject(responseBody);
                         String token = jsonObject.getString("token");
 
                         /*
@@ -235,8 +227,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         return enteredUser;
 
-                    }
-                    else{
+                    } else {
                         // not authorized
                         return null;
                     }
@@ -244,7 +235,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     // return response as string to "onPostExecute"
                 } catch (IOException e) {
                     e.printStackTrace();
-                } catch (JSONException e){
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 return null;
@@ -261,7 +252,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     //textInputPassword.setError("Please enter a valid Username or Password");
 
 
-                }else{
+                } else {
                     // autorisiert
                     Log.d("Login", "Success");
 
@@ -276,9 +267,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
         asyncTask.execute(enteredUser);
     }
-
-
-
 
 
     @Override
