@@ -146,7 +146,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 String email = textInputEmail.getEditText().getText().toString();
                 String password = textInputPassword.getEditText().getText().toString();
                 String username = textInputUsername.getEditText().getText().toString();
-                int role = 1;
+                int role = 0;
 
 
                 //check fields not empty
@@ -182,11 +182,11 @@ public class RegistrationActivity extends AppCompatActivity {
                 User enteredUser = users[0];
 
                 // prepare json as String
-                String json = "{\n" +
-                        "\t\"name\" : \"" + enteredUser.getName() + "\",\n" +
-                        "\t\"email\" : \"" + enteredUser.getEmail() + "\",\n" +
-                        "\t\"password\" : \"" + enteredUser.getPassword() + "\",\n" +
-                        "\t\"role\" : \"" + enteredUser.getRole() + "\"\n" +
+                String json = "{" +
+                        "\"name\" : \"" + enteredUser.getName() + "\"," +
+                        "\"email\" : \"" + enteredUser.getEmail() + "\"," +
+                        "\"password\" : \"" + enteredUser.getPassword() + "\"," +
+                        "\"role\" : \"" + enteredUser.getRole() + "\"" +
                         "}";
 
                 // parse string to body
@@ -199,7 +199,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 // prepare request
                 Request request = new Request.Builder()
                         .addHeader("Content-Type", "application/json")
-                        .url(url = "auth/register")
+                        .url(url + "auth/register")
                         .post(body)
                         .build();
 
@@ -209,7 +209,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         // authorized
                         String responseBody = response.body().string();
-                        Log.d("responseBody", "responseBody");
+                        Log.d("responseBody", responseBody);
 
                         JSONObject jsonObject = new JSONObject(responseBody);
                         String token = jsonObject.getString("token");
