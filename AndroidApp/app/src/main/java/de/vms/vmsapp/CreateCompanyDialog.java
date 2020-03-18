@@ -71,7 +71,6 @@ public class CreateCompanyDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         createCompany(edit_companyname.getText().toString());
-                        // @TODO: refresh rooms (getRooms())
                     }
                 });
         return builder.create();

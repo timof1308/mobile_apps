@@ -151,7 +151,7 @@ public class CompanyListAdapter extends ArrayAdapter {
     /**
      * add company to update list view
      *
-     * @param company
+     * @param company Company
      */
     public void addCompany(Company company) {
         this.companies.add(company);
