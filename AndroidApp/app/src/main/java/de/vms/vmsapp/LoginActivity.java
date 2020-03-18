@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
             = MediaType.parse("application/json; charset=utf-8");
 
     Toolbar mToolbar;
-    TextInputEditText text_input_username;
+    TextInputEditText text_input_email;
     TextInputEditText text_input_password;
     Button loginBtn;
 
@@ -42,15 +42,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mToolbar = findViewById(R.id.toolbar);
-        text_input_username = findViewById(R.id.text_input_username);
+        text_input_email = findViewById(R.id.text_input_email);
         text_input_password = findViewById(R.id.text_input_password);
         loginBtn = findViewById(R.id.login);
         setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        // load users
-        //getUsers();
     }
 
 
@@ -63,20 +60,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Boolean loginSucceed = false;
-                String email = text_input_username.getText().toString();
+                // get data
+                String email = text_input_email.getText().toString();
                 String password = text_input_password.getText().toString();
 
-                Log.d(email, password);
-                //check fields not empty
-
-                // request users from DB
-
-
+                // create custom user object
                 User userObject = new User();
                 userObject.setEmail(email);
                 userObject.setPassword(password);
 
-                checkUser(userObject);
+                // form check
+                loginUser(userObject);
             }
         });
     }
@@ -94,13 +88,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void checkUser(User enteredUser) {
+    private void loginUser(User enteredUser) {
         AsyncTask<User, Void, User> asyncTask = new AsyncTask<User, Void, User>() {
             @Override
             protected User doInBackground(User... users) {
                 OkHttpClient client = new OkHttpClient();
                 // prepare request
-                // @TODO: get jwt from local storage
                 if (users.length != 1) {
                     return null;
                 }
@@ -127,8 +120,8 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         // authorized
                         String responseBody = response.body().string();
-                        Log.d("responseBody", responseBody);
 
+                        // parse JSON response
                         JSONObject jsonObject = new JSONObject(responseBody);
                         String token = jsonObject.getString("token");
 
@@ -138,6 +131,9 @@ public class LoginActivity extends AppCompatActivity {
 
                         return enteredUser;
                     } else {
+                        // authorized
+                        String responseBody = response.body().string();
+                        Log.d("FAIL responseBody", responseBody);
                         // not authorized
                         return null;
                     }
@@ -157,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (s == null) {
                     // unautorisiert
                     Log.d("Login", "Failed");
-                    text_input_username.setError("Please check your Username");
+                    text_input_email.setError("Please check your Username");
                     text_input_password.setError("Please please check your Password");
                 } else {
                     // autorisiert

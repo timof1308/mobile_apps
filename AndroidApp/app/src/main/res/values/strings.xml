@@ -23,8 +23,8 @@
     <string name="title_activity_registration">RegistrationActivity</string>
 
     <!-- LOGIN -->
-    <string name="username">Username</string>
-    <string name="enter_username">Please enter your username</string>
+    <string name="name">Name</string>
+    <string name="enter_name">Please enter your name</string>
     <string name="password">Password</string>
     <string name="enter_password">**********</string>
     <string name="forgot_password">Forgot your password?</string>
