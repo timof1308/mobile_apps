@@ -179,7 +179,7 @@ public class RoomsFragment extends Fragment {
         CreateRoomDialog createRoomDialog = CreateRoomDialog.getInstanceFor();
         // set target fragment to get this fragment from other fragment
         createRoomDialog.setTargetFragment(RoomsFragment.this, TARGET_FRAGMENT_REQUEST_CODE);
-        createRoomDialog.show(getFragmentManager(), "create company"); //different from tut
+        createRoomDialog.show(getFragmentManager(), "create room"); //different from tut
     }
 
     public static Intent newIntent(Room room) {
