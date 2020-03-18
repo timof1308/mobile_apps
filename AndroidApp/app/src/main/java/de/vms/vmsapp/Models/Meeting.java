@@ -2,6 +2,7 @@ package de.vms.vmsapp.Models;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Meeting {
@@ -10,6 +11,7 @@ public class Meeting {
     private Room room;
     private Date date;
     private int duration;
+    private ArrayList<Visitor> visitors;
 
     public Meeting() {
         //
@@ -21,6 +23,15 @@ public class Meeting {
         this.setRoom(room);
         this.setDate(date);
         this.setDuration(duration);
+    }
+
+    public Meeting(int id, User user, Room room, String date, int duration, ArrayList<Visitor> visitors) {
+        this.setId(id);
+        this.setUser(user);
+        this.setRoom(room);
+        this.setDate(date);
+        this.setDuration(duration);
+        this.setVisitors(visitors);
     }
 
     public int getId() {
@@ -74,4 +85,11 @@ public class Meeting {
         this.duration = duration;
     }
 
+    public ArrayList<Visitor> getVisitors() {
+        return visitors;
+    }
+
+    public void setVisitors(ArrayList<Visitor> visitors) {
+        this.visitors = visitors;
+    }
 }
