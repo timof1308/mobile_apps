@@ -1,6 +1,7 @@
 package de.vms.vmsapp.Adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,9 @@ import de.vms.vmsapp.R;
 
 public class MeetingListAdapter extends ArrayAdapter<Meeting> {
     private ArrayList<Meeting> meetings;
+    // api params
+    private String URL;
+    private String TOKEN;
 
     /**
      * Constructer to override constructer of parent class
@@ -29,6 +33,11 @@ public class MeetingListAdapter extends ArrayAdapter<Meeting> {
     public MeetingListAdapter(Context context, ArrayList<Meeting> meetings) {
         super(context, 0, meetings);
         this.meetings = meetings;
+
+        // get api url and token from shared pref
+        SharedPreferences shared_pref = getContext().getSharedPreferences("app", Context.MODE_PRIVATE);
+        URL = shared_pref.getString("URL", null);
+        TOKEN = shared_pref.getString("token", null);
     }
 
     @NonNull

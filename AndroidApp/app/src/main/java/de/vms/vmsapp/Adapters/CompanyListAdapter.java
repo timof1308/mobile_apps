@@ -3,6 +3,7 @@ package de.vms.vmsapp.Adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,9 @@ import okhttp3.Response;
 public class CompanyListAdapter extends ArrayAdapter {
 
     private ArrayList<Company> companies;
+    // api params
+    private String URL;
+    private String TOKEN;
 
     /**
      * Constructer to override constructer of parent class
@@ -37,6 +41,11 @@ public class CompanyListAdapter extends ArrayAdapter {
     public CompanyListAdapter(Context context, ArrayList<Company> companies) {
         super(context, 0, companies);
         this.companies = companies;
+
+        // get api url and token from shared pref
+        SharedPreferences shared_pref = getContext().getSharedPreferences("app", Context.MODE_PRIVATE);
+        URL = shared_pref.getString("URL", null);
+        TOKEN = shared_pref.getString("token", null);
     }
 
     @NonNull
@@ -103,10 +112,9 @@ public class CompanyListAdapter extends ArrayAdapter {
             protected String doInBackground(Void... params) {
                 OkHttpClient client = new OkHttpClient();
                 // prepare request
-                // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/companies/" + companyId)
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "companies/" + companyId)
                         .delete()
                         .build();
 
