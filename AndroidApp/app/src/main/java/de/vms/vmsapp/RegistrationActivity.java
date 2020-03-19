@@ -9,7 +9,6 @@ import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -88,9 +87,6 @@ public class RegistrationActivity extends AppCompatActivity {
         if (usernameInput.isEmpty()) {
             textInputUsername.setError("Field can't be empty");
             return false;
-        } else if (usernameInput.length() > 30) {
-            textInputUsername.setError("Username too long");
-            return false;
         } else {
             textInputUsername.setError(null);
             return true;
@@ -119,22 +115,6 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
-
-    public void confirmInput(View v) {
-        if (!validateEmail() | !validateUsername() | !validatePassword()) {
-            return;
-        }
-
-        String input = "Email: " + textInputEmail.getEditText().getText().toString();
-        input += "\n";
-        input += "Username: " + textInputUsername.getEditText().getText().toString();
-        input += "\n";
-        input += "Password: " + textInputPassword.getEditText().getText().toString();
-
-        Toast.makeText(this, input, Toast.LENGTH_SHORT).show();
-    }
-
-
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -146,14 +126,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 String email = textInputEmail.getEditText().getText().toString();
                 String password = textInputPassword.getEditText().getText().toString();
                 String username = textInputUsername.getEditText().getText().toString();
-                int role = 0;
+                int role = 0; // default role
 
-
-                //check fields not empty
-
-                // request users from DB
-
-
+                // user object
                 User userObject = new User();
                 userObject.setEmail(email);
                 userObject.setPassword(password);
@@ -256,8 +231,11 @@ public class RegistrationActivity extends AppCompatActivity {
                     // autorisiert
                     Log.d("Login", "Success");
 
-                    // Speichern in Lokalem Speicher für weitere Service Aufrufe
-                    // s.getToken()
+                    // save token from login in SharedPreferences
+                    SharedPreferences shared_pref = getSharedPreferences("app", MODE_PRIVATE);
+                    SharedPreferences.Editor shared_pref_edit = shared_pref.edit();
+                    shared_pref_edit.putString("token", s.getToken());
+                    shared_pref_edit.apply();
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);

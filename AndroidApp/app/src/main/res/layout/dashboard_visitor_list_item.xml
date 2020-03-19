@@ -21,10 +21,9 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/statusTextView"
+            android:id="@+id/hostTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -40,6 +39,15 @@
             android:background="@drawable/ic_edit"
             android:drawablePadding="2dip"
             android:drawableTint="@color/colorPrimaryDark"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/actionButton"
+            android:layout_width="28dip"
+            android:layout_height="28dip"
+            android:background="@drawable/ic_add"
+            android:drawablePadding="2dip"
+            android:drawableTint="@color/colorSuccess"
             android:gravity="center" />
 
         <Button

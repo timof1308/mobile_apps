@@ -220,7 +220,6 @@ public class MeetingBundleFragment extends Fragment {
             protected String doInBackground(Void... params) {
                 OkHttpClient client = new OkHttpClient();
                 // prepare request
-                // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
                         .addHeader("Authorization", TOKEN)
                         .url(URL + "rooms")
@@ -286,7 +285,6 @@ public class MeetingBundleFragment extends Fragment {
             protected String doInBackground(Void... params) {
                 OkHttpClient client = new OkHttpClient();
                 // prepare request
-                // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
                         .addHeader("Authorization", TOKEN)
                         .url(URL + "companies")
@@ -373,10 +371,9 @@ public class MeetingBundleFragment extends Fragment {
                 RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
 
                 // prepare request
-                // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
-                        .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtb2JpbGVfYXBwc19hcGkiLCJzdWIiOjEsImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6InZtcy53d2kxN3NjYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImQ5YjVmNThmMGIzODE5ODI5Mzk3MTg2NWExNDA3NGY1OWViYTNlODI1OTViZWNiZTg2YWU1MWYxZDlmMWY2NWUiLCJyb2xlIjoxLCJ0b2tlbiI6bnVsbCwiaWF0IjoxNTgyMjc3ODM1fQ.U9k0Oykk3rGBRKgQpuc7xgSFSeWaUzk9p3dDMCqVDro")
-                        .url("http://35.223.244.220/api/meetings/bundle")
+                        .addHeader("Authorization", TOKEN)
+                        .url(URL + "meetings/bundle")
                         .post(body)
                         .build();
 

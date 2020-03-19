@@ -1,6 +1,8 @@
 package de.vms.vmsapp;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import de.vms.vmsapp.Adapters.CompanyListAdapter;
 import de.vms.vmsapp.Adapters.RoomListAdapter;
 import de.vms.vmsapp.Models.Room;
 import okhttp3.OkHttpClient;
@@ -35,6 +38,9 @@ public class RoomsFragment extends Fragment {
     private View view;
     private ListView listView;
     private Button newRoomButton;
+    private RoomListAdapter arrayAdapter;
+    private static final int TARGET_FRAGMENT_REQUEST_CODE = 1;
+    private static final String EXTRA_ROOM_MESSAGE = "room";
     // api params
     private String URL;
     private String TOKEN;
@@ -108,7 +114,6 @@ public class RoomsFragment extends Fragment {
             protected String doInBackground(Void... params) {
                 OkHttpClient client = new OkHttpClient();
                 // prepare request
-                // @TODO: get jwt from local storage
                 Request request = new Request.Builder()
                         .addHeader("Authorization", TOKEN)
                         .url(URL + "rooms")
@@ -165,12 +170,33 @@ public class RoomsFragment extends Fragment {
             // add room to array list
             rooms.add(room);
         }
-        RoomListAdapter arrayAdapter = new RoomListAdapter(getActivity(), rooms);
+        arrayAdapter = new RoomListAdapter(getActivity(), rooms);
         listView.setAdapter(arrayAdapter);
     }
 
     private void openCreateRoomDialog() {
-        CreateRoomDialog createRoomDialog = new CreateRoomDialog();
-        createRoomDialog.show(this.getFragmentManager(), "create room"); //different from tut
+        // call getInstanceFor method
+        CreateRoomDialog createRoomDialog = CreateRoomDialog.getInstanceFor();
+        // set target fragment to get this fragment from other fragment
+        createRoomDialog.setTargetFragment(RoomsFragment.this, TARGET_FRAGMENT_REQUEST_CODE);
+        createRoomDialog.show(getFragmentManager(), "create room"); //different from tut
+    }
+
+    public static Intent newIntent(Room room) {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_ROOM_MESSAGE, room);
+        return intent;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (requestCode == TARGET_FRAGMENT_REQUEST_CODE) {
+            Room r = data.getExtras().getParcelable(EXTRA_ROOM_MESSAGE);
+            Log.d("room returned", r.getName());
+            arrayAdapter.addRoom(r);
+        }
     }
 }

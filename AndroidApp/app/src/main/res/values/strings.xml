@@ -23,8 +23,8 @@
     <string name="title_activity_registration">RegistrationActivity</string>
 
     <!-- LOGIN -->
-    <string name="username">Username</string>
-    <string name="enter_username">Please enter your username</string>
+    <string name="name">Name</string>
+    <string name="enter_name">Please enter your name</string>
     <string name="password">Password</string>
     <string name="enter_password">**********</string>
     <string name="forgot_password">Forgot your password?</string>
@@ -48,6 +48,7 @@
 
     <!-- MEETING -->
     <string name="create_meeting">Create Meeting</string>
+    <string name="update_meeting">Update Meeting</string>
     <string name="new_meeting">Create new Meeting</string>
     <string name="meeting_date">Date</string>
     <string name="meeting_date_placeholder">Enter date</string>
@@ -55,6 +56,11 @@
     <string name="meeting_duration_placeholder">Enter meeting duration in minutes</string>
     <string name="meeting_room">Select meeting room</string>
     <string name="meeting_add_visitor">Add visitor</string>
+    <string name="meeting_upcoming">Upcoming meetings</string>
+    <string name="meeting_details">Meeting information</string>
+    <string name="meeting_attendees">Meeting attendees</string>
+    <string name="meeting_cancel_title">Cancel Meeting?</string>
+    <string name="meeting_cancel_text">Are you sure to cancel this meeting? All attendees will receive a notification.</string>
 
     <!-- ADD VISITOR -->
     <string name="dialog_visitor_heading">Add new visitor</string>
@@ -89,5 +95,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-  
+
 </resources>

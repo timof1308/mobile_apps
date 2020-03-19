@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -62,5 +63,16 @@ public class RoomListAdapter extends ArrayAdapter<Room> {
      */
     public Room getItem(int position) {
         return this.rooms.get(position);
+    }
+
+    /**
+     * add company to update list view
+     *
+     * @param room Room
+     */
+    public void addRoom(Room room) {
+        this.rooms.add(room);
+        Toast.makeText(getContext(), "Room successfully created", Toast.LENGTH_SHORT).show();
+        this.notifyDataSetChanged();
     }
 }

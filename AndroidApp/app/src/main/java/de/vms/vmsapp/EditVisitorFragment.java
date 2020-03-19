@@ -1,6 +1,9 @@
 package de.vms.vmsapp;
 
+import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -88,8 +91,8 @@ public class EditVisitorFragment extends Fragment {
         nameEditText.setText(visitor.getName());
         emailEditText.setText(visitor.getEmail());
         telEditText.setText(visitor.getTel());
-        hostEditText.setText(getActivity().getResources().getString(R.string.host_label) + ": " + visitor.getMeeting().getUser().getName());
-        roomEditText.setText(getActivity().getResources().getString(R.string.room_label) + ": " + visitor.getMeeting().getRoom().getName());
+        //hostEditText.setText(getActivity().getResources().getString(R.string.host_label) + ": " + visitor.getMeeting().getUser().getName());
+        //roomEditText.setText(getActivity().getResources().getString(R.string.room_label) + ": " + visitor.getMeeting().getRoom().getName());
 
         // company spinner on select item event
         companySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

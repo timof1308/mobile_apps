@@ -1,8 +1,10 @@
 package de.vms.vmsapp;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,8 +18,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
+import de.vms.vmsapp.Models.Room;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -28,6 +34,12 @@ import okhttp3.Response;
 public class CreateRoomDialog extends AppCompatDialogFragment {
 
     EditText edit_roomname;
+
+    public static CreateRoomDialog getInstanceFor() {
+        CreateRoomDialog cvd = new CreateRoomDialog();
+        // in case method accepts passed variables pass handling here
+        return cvd;
+    }
 
     @NonNull
     @Override
@@ -111,12 +123,12 @@ public class CreateRoomDialog extends AppCompatDialogFragment {
                 if (s != null) {
                     // LOG response
                     Log.d("data", s);
-//                    try {
-//                        // pass to function to create List View elements and render view
-//                        loadIntoListView(s);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        // pass to function to create List View elements and render view
+                        parseResponse(s);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
@@ -125,6 +137,25 @@ public class CreateRoomDialog extends AppCompatDialogFragment {
     }
 
 
+    /**
+     * parse create room response from json to object
+     *
+     * @param json String
+     * @throws JSONException
+     */
+    private void parseResponse(String json) throws JSONException {
+        // create json object
+        JSONObject obj = new JSONObject(json);
+        // create company
+        Room room = new Room(obj.getInt("id"), obj.getString("name"));
+        Log.d("data", "" + room.getId());
+        // get target fragment
+        if (getTargetFragment() == null) {
+            return;
+        }
+        // prepare intent
+        Intent intent = RoomsFragment.newIntent(room);
+        // send intent from dialog to fragment
+        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+    }
 }
-
-
