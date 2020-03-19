@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import de.vms.vmsapp.Adapters.MeetingListAdapter;
 import de.vms.vmsapp.Models.Company;
 import de.vms.vmsapp.Models.Meeting;
 import de.vms.vmsapp.Models.Room;
@@ -39,6 +40,7 @@ public class MeetingsFragment extends Fragment {
     // UI elements
     private View view;
     private ListView listView;
+    private MeetingListAdapter arrayAdapter;
     private Button newMeetingButton;
     // api params
     private String URL;
@@ -202,7 +204,7 @@ public class MeetingsFragment extends Fragment {
             meetings.add(meeting);
         }
 
-        // MeetingListAdapter arrayAdapter = new MeetingListAdapter(getActivity(), meetings, MeetingsFragment.this);
-        // meetingListView.setAdapter(arrayAdapter);
+        MeetingListAdapter arrayAdapter = new MeetingListAdapter(getActivity(), meetings);
+        listView.setAdapter(arrayAdapter);
     }
 }

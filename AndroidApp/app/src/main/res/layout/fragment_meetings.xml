@@ -7,8 +7,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Meetings Fragment"
-        android:textSize="30sp" />
+        android:text="@string/meeting_upcoming"
+        android:textSize="24sp"
+        android:padding="12dp" />
 
     <ListView
         android:id="@+id/meetingsListView"

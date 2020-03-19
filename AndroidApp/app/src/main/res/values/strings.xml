@@ -55,6 +55,7 @@
     <string name="meeting_duration_placeholder">Enter meeting duration in minutes</string>
     <string name="meeting_room">Select meeting room</string>
     <string name="meeting_add_visitor">Add visitor</string>
+    <string name="meeting_upcoming">Upcoming meetings</string>
 
     <!-- ADD VISITOR -->
     <string name="dialog_visitor_heading">Add new visitor</string>
