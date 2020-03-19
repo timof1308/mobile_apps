@@ -192,10 +192,24 @@ public class MeetingsFragment extends Fragment {
                 c.setId(companyJson.getInt("id"));
                 c.setName(companyJson.getString("name"));
                 v.setCompany(c);
+                // meeting -> visitor -> meeting !! QUICK AND DIRTY !!
+                JSONObject meetingJson = new JSONObject(visitorJson.getString("meeting"));
+                Meeting m = new Meeting();
+                m.setId(meetingJson.getInt("id"));
+                v.setMeeting(m);
 
                 // add visitor to visitors array list
                 visitors.add(v);
             }
+            // meeting -> user
+            JSONObject userJson = new JSONObject(obj.getString("user"));
+            User u = new User();
+            u.setId(userJson.getInt("id"));
+            u.setName(userJson.getString("name"));
+            u.setEmail(userJson.getString("email"));
+            u.setPassword(userJson.getString("password"));
+            u.setRole(userJson.getInt("role"));
+            meeting.setUser(u);
 
             // meeting -> visitors
             meeting.setVisitors(visitors);
@@ -204,7 +218,7 @@ public class MeetingsFragment extends Fragment {
             meetings.add(meeting);
         }
 
-        MeetingListAdapter arrayAdapter = new MeetingListAdapter(getActivity(), meetings);
+        MeetingListAdapter arrayAdapter = new MeetingListAdapter(getActivity(), meetings, MeetingsFragment.this);
         listView.setAdapter(arrayAdapter);
     }
 }
