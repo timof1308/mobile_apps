@@ -21,13 +21,21 @@
     <string name="scanQR">Please scan your QR code ...</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="title_activity_reset">ResetActivity</string>
+    <string name="title_activity_forget">ForgetActivity</string>
 
-    <!-- LOGIN -->
+    <!-- LOGIN RESET/FORGET -->
     <string name="name">Name</string>
     <string name="enter_name">Please enter your name</string>
     <string name="password">Password</string>
+    <string name="password_confirm">Confirm password</string>
     <string name="enter_password">**********</string>
     <string name="forgot_password">Forgot your password?</string>
+    <string name="reset">Reset password</string>
+    <string name="forget_success">Reset code has been sent to your email address.</string>
+    <string name="reset_success">Successfully resetted your password.</string>
+    <string name="token">Reset token</string>
+    <string name="enter_token">Enter your 4 digit token</string>
 
     <!-- ROOM -->
     <string name="new_room">Create new room</string>
