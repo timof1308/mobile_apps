@@ -8,16 +8,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputEditText;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -28,26 +25,21 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class ForgetActivity extends AppCompatActivity {
 
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
-
-    Toolbar mToolbar;
-    TextInputEditText text_input_email;
-    TextInputEditText text_input_password;
-    Button forgot_password;
-    Button loginBtn;
+    private Toolbar mToolbar;
+    private TextInputEditText text_input_email;
+    private Button resetBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        mToolbar = findViewById(R.id.toolbar);
-        text_input_email = findViewById(R.id.text_input_email);
-        text_input_password = findViewById(R.id.text_input_password);
-        forgot_password = findViewById(R.id.forgot_password);
-        loginBtn = findViewById(R.id.login);
+        setContentView(R.layout.activity_forget);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        text_input_email = (TextInputEditText) findViewById(R.id.text_input_email);
+        resetBtn = (Button) findViewById(R.id.reset);
         setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -57,28 +49,17 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mToolbar.setTitle(R.string.login);
+        mToolbar.setTitle(R.string.reset);
 
-        forgot_password.setOnClickListener(new View.OnClickListener() {
+        resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, ForgetActivity.class);
-                LoginActivity.this.startActivity(intent);
-            }
-        });
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Boolean loginSucceed = false;
                 // get data
                 String email = text_input_email.getText().toString();
-                String password = text_input_password.getText().toString();
 
                 // create custom user object
                 User userObject = new User();
                 userObject.setEmail(email);
-                userObject.setPassword(password);
 
                 // form check
                 loginUser(userObject);
@@ -111,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                 User enteredUser = users[0];
 
                 // prepare json as string
-                String json = "{\"email\":\"" + enteredUser.getEmail() + "\",\"password\":\"" + enteredUser.getPassword() + "\"}";
+                String json = "{\"email\":\"" + enteredUser.getEmail() + "\"}";
 
                 // parse json string to body
                 RequestBody body = RequestBody.create(json, JSON); // new
@@ -122,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                 // request
                 Request request = new Request.Builder()
                         .addHeader("Content-Type", "application/json")
-                        .url(url + "auth/login")
+                        .url(url + "auth/forget")
                         .post(body)
                         .build();
 
@@ -131,14 +112,6 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         // authorized
                         String responseBody = response.body().string();
-
-                        // parse JSON response
-                        JSONObject jsonObject = new JSONObject(responseBody);
-                        String token = jsonObject.getString("token");
-
-                        Log.d("token", token);
-
-                        enteredUser.setToken(token);
 
                         return enteredUser;
                     } else {
@@ -152,8 +125,6 @@ public class LoginActivity extends AppCompatActivity {
                     // return response as string to "onPostExecute"
                 } catch (IOException e) {
                     e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
                 return null;
             }
@@ -163,21 +134,16 @@ public class LoginActivity extends AppCompatActivity {
                 super.onPostExecute(s);
                 if (s == null) {
                     // unautorisiert
-                    Log.d("Login", "Failed");
-                    text_input_email.setError("Please check your Username");
-                    text_input_password.setError("Please please check your Password");
+                    Log.d("Forget", "Failed");
+                    text_input_email.setError("Please check your Email");
                 } else {
                     // autorisiert
-                    Log.d("Login", "Success");
+                    Log.d("Reset", "Success");
 
-                    // save token from login in SharedPreferences
-                    SharedPreferences shared_pref = getSharedPreferences("app", MODE_PRIVATE);
-                    SharedPreferences.Editor shared_pref_edit = shared_pref.edit();
-                    shared_pref_edit.putString("token", s.getToken());
-                    shared_pref_edit.apply();
+                    Toast.makeText(ForgetActivity.this, R.string.forget_success, Toast.LENGTH_SHORT).show();
 
                     // redirect to new intent
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), ResetActivity.class);
                     startActivity(intent);
                 }
             }
@@ -185,5 +151,4 @@ public class LoginActivity extends AppCompatActivity {
 
         asyncTask.execute(enteredUser);
     }
-
 }

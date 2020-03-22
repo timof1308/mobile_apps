@@ -30,6 +30,18 @@
         <activity android:name=".ScanActivity" />
         <activity android:name=".HomeFragment" />
         <activity
+            android:name=".ResetActivity"
+            android:label="@string/title_activity_reset"
+            android:parentActivityName=".WelcomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ForgetActivity"
+            android:label="@string/title_activity_forget"
+            android:parentActivityName=".WelcomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName=".WelcomeActivity"

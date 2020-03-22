@@ -67,52 +67,16 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/password"
-            android:textColor="#000000"
-            android:textSize="18sp" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:errorEnabled="true"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/text_input_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:hint="@string/enter_password"
-                android:inputType="textPassword"
-                android:textColor="#000000"
-                android:textSize="18sp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
         <Button
-            android:id="@+id/login"
+            android:id="@+id/reset"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_gravity="center"
             android:background="#2196F3"
-            android:text="@string/login"
+            android:text="@string/reset"
             android:textColor="#FFFFFF"
             android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/forgot_password"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_gravity="center"
-            android:text="@string/forgot_password"
-            android:textSize="14sp"
-            android:layout_marginTop="24dp"/>
 
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
