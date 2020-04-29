@@ -18,7 +18,7 @@
 
     <!-- WELCOME -->
     <string name="welcome">Welcome</string>
-    <string name="scanQR">Please scan your QR code ...</string>
+    <string name="scanQR">Please scan your QR code.</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="title_activity_reset">ResetActivity</string>

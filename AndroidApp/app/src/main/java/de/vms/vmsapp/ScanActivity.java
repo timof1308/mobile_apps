@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -54,7 +55,6 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         SharedPreferences shared_pref = getSharedPreferences("app", Context.MODE_PRIVATE);
         URL = shared_pref.getString("URL", null);
         TOKEN = shared_pref.getString("token", null);
-
 
         int currentapiVersion = Build.VERSION.SDK_INT;
         if (currentapiVersion >= Build.VERSION_CODES.M) {
@@ -159,11 +159,13 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         Log.d("QRCodeScanner", rawResult.getBarcodeFormat().toString());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Scan Result");
+        builder.setTitle("Welcome!");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mScannerView.resumeCameraPreview(ScanActivity.this);
+                //mScannerView.resumeCameraPreview(ScanActivity.this);
+                ScanActivity.super.onBackPressed();
+                //startActivity(intent);
             }
         });
         builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
@@ -173,8 +175,23 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
                 startActivity(browserIntent);
             }
         });
-        HomeFragment.tv_result.setText(rawResult.getText()); //setzt Text in Home
-        builder.setMessage(rawResult.getText());
+        String json = rawResult.getText();
+        String userName = "";
+        try {
+            JSONObject obj = new JSONObject(json);
+            userName = obj.getString("name");
+
+            Log.d(TAG, obj.toString());
+        } catch (Throwable t) {
+            Log.e(TAG, "Could not parse malformed JSON: \"" + json + "\"");
+        }
+
+        //HomeFragment.tv_result.setText(rawResult.getText()); //setzt Text in Home
+        HomeFragment.tv_result.setText("Welcome " + userName + "!");
+
+
+        //builder.setMessage(rawResult.getText());
+        builder.setMessage("You have been checked in.");
         AlertDialog alert1 = builder.create();
         alert1.show();
 
